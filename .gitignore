@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+
+# Credentials and local test data
+.env
+.env.*
+!.env.example
+secrets.yaml
+*.secret
+credentials.json
+local_data/
+private/
+*.log
