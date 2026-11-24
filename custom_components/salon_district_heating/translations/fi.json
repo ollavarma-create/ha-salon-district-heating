@@ -1,0 +1,33 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Yhdistä LämpöVahtiin",
+        "data": {
+          "api_key": "API-avain"
+        }
+      },
+      "location": {
+        "title": "Valitse käyttöpaikka",
+        "data": {
+          "location_id": "Käyttöpaikka"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Uusi API-avain",
+        "data": {
+          "api_key": "API-avain"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Virheellinen API-avain",
+      "cannot_connect": "Yhteys epäonnistui",
+      "no_locations": "Ei käytettävissä olevia käyttöpaikkoja"
+    },
+    "abort": {
+      "already_configured": "Integraatio on jo määritetty",
+      "reauth_successful": "API-avain päivitetty"
+    }
+  }
+}
