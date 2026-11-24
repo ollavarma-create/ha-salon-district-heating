@@ -1,0 +1,14 @@
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 1,
+      "name": "Example location",
+      "address": "Example street 1",
+      "postal_code": "00000",
+      "city": "Example city"
+    }
+  ]
+}
