@@ -31,3 +31,15 @@ A plausible explanation is quantization of the cumulative meter reading before h
 Supply/return temperatures and volume flow could support an independent approximate thermal power estimate, but their sampling and aggregation semantics are unconfirmed. Do not substitute such estimates for measured energy or billing data. No additional power sensor is introduced by this documentation change.
 
 Open questions: Is 1 kWh the intended reporting resolution? Can finer cumulative readings be exposed? Are temperatures and volume flow instantaneous samples or interval averages? The integration must remain usable even if these questions are not answered. Customer identifiers and raw customer exports are not published.
+
+## Physical meter and intended use
+
+The inspected installation uses a Kamstrup heat meter, visually identified as a MULTICAL 403 (model identification not independently verified), replaced with a 4G-based remote-reading installation in 2026 according to the owner. Its E1 display shows energy in MWh with three decimal places, corresponding to a 1 kWh display increment. This agrees with the observed CSV and API reporting increments. The exact meter configuration and remote-reading register resolution have not been verified and need not be assumed.
+
+Manufacturer reference: [Kamstrup MULTICAL 403 Technical Description](https://productfinder.gwf.ch/uploads_productfinder/downloads/FILE100000166_C_ENpdf.pdf), section 3.2.3 (resolution). The reference is retained for further verification; no specific configuration code is asserted for this installation.
+
+### User-facing limitation
+
+Hourly energy and hourly average power are intended for monitoring and longer-period analysis. Observed 1 kWh reporting increments, hourly aggregation and delayed API completion make these values unsuitable as the sole input to real-time heating control, rapid feedback loops or safety functions. Resolution is not the same as metrological accuracy. Do not infer instantaneous power from hourly average power. Other API measurements also have unconfirmed sampling semantics.
+
+Planned UI improvement: provide a concise informational notice during integration setup and in user documentation in English, Finnish and Swedish. Do not generate recurring warnings for normal quantization. Preserve existing sensor identifiers and raw reported values. This is a documentation-only change; the UI notice is not yet implemented.
