@@ -29,5 +29,40 @@
       "already_configured": "Already configured",
       "reauth_successful": "API key updated"
     }
+  },
+  "entity": {
+    "sensor": {
+      "energy_total": {
+        "name": "Total energy"
+      },
+      "hourly_energy": {
+        "name": "Hourly energy"
+      },
+      "average_power": {
+        "name": "Hourly average power"
+      },
+      "supply_temperature": {
+        "name": "Supply temperature"
+      },
+      "return_temperature": {
+        "name": "Return temperature"
+      },
+      "temperature_difference": {
+        "name": "Temperature difference"
+      },
+      "flow": {
+        "name": "Volume flow"
+      },
+      "measurement_time": {
+        "name": "Measurement time"
+      },
+      "reading_status": {
+        "name": "Reading status",
+        "state": {
+          "read": "Measured",
+          "estimated": "Estimated"
+        }
+      }
+    }
   }
 }

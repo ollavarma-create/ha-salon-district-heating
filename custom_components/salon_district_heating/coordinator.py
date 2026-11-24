@@ -1,0 +1,72 @@
+"""Centralized retrieval and adaptive scheduling."""
+from datetime import datetime, timedelta, timezone
+import logging
+from homeassistant.exceptions import ConfigEntryAuthFailed
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.helpers.event import async_track_point_in_utc_time
+from .api import ApiError, AuthenticationError
+from .polling import next_poll, current_sample
+
+_LOGGER = logging.getLogger(__name__)
+
+def stamp(row):
+    value = datetime.fromisoformat(row["date"])
+    if value.tzinfo is None:
+        raise ValueError("Missing timezone")
+    return value.astimezone(timezone.utc)
+
+class SalonCoordinator(DataUpdateCoordinator):
+    def __init__(self, hass, entry, client):
+        super().__init__(hass, _LOGGER, name="Salon Kaukolämpö", config_entry=entry)
+        self.client = client
+        self.location_id = entry.data["location_id"]
+        self.cancel_poll = None
+        self.stopped = False
+        self.first_seen = None
+        self.last_stamp = None
+        self.retries = 0
+
+    async def _async_update_data(self):
+        now = datetime.now(timezone.utc)
+        try:
+            rows = await self.client.consumptions(self.location_id, (now-timedelta(hours=48)).isoformat(), now.isoformat())
+            rows = [row for row in rows if row.get("location_id") == self.location_id and stamp(row) <= now]
+            latest = max(rows, key=stamp) if rows else None
+            if latest is None:
+                raise UpdateFailed("No recent measurements")
+            date = stamp(latest)
+            if date != self.last_stamp:
+                self.first_seen = now
+                self.last_stamp = date
+                self.retries = 0
+            elif not current_sample(now, date):
+                self.retries += 1
+            _LOGGER.debug("Measurement date=%s modified=%s first_seen=%s retries=%s", date, latest.get("modified_at"), self.first_seen, self.retries)
+            return latest
+        except AuthenticationError:
+            self.stop()
+            raise ConfigEntryAuthFailed("Authentication failed") from None
+        except (ApiError, ValueError, KeyError, TypeError):
+            raise UpdateFailed("Measurement retrieval failed") from None
+
+    def schedule(self):
+        if self.stopped:
+            return
+        if self.cancel_poll:
+            self.cancel_poll()
+        now = datetime.now(timezone.utc)
+        complete = self.last_update_success and self.last_stamp is not None and current_sample(now, self.last_stamp)
+        self.cancel_poll = async_track_point_in_utc_time(self.hass, self._poll, next_poll(now, complete))
+
+    async def _poll(self, _now):
+        self.cancel_poll = None
+        try:
+            await self.async_refresh()
+        finally:
+            self.schedule()
+
+    def stop(self):
+        self.stopped = True
+        if self.cancel_poll:
+            self.cancel_poll()
+            self.cancel_poll = None

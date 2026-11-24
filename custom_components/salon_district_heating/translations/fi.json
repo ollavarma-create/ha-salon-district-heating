@@ -29,5 +29,40 @@
       "already_configured": "Integraatio on jo määritetty",
       "reauth_successful": "API-avain päivitetty"
     }
+  },
+  "entity": {
+    "sensor": {
+      "energy_total": {
+        "name": "Kokonaisenergia"
+      },
+      "hourly_energy": {
+        "name": "Tuntienergia"
+      },
+      "average_power": {
+        "name": "Tunnin keskiteho"
+      },
+      "supply_temperature": {
+        "name": "Menoveden lämpötila"
+      },
+      "return_temperature": {
+        "name": "Paluuveden lämpötila"
+      },
+      "temperature_difference": {
+        "name": "Lämpötilaero"
+      },
+      "flow": {
+        "name": "Tilavuusvirta"
+      },
+      "measurement_time": {
+        "name": "Mittausajankohta"
+      },
+      "reading_status": {
+        "name": "Mittauksen tila",
+        "state": {
+          "read": "Mitattu",
+          "estimated": "Arvioitu"
+        }
+      }
+    }
   }
 }
