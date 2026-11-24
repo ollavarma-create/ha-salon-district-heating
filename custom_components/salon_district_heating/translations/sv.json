@@ -29,5 +29,40 @@
       "already_configured": "Integrationen är redan konfigurerad",
       "reauth_successful": "API-nyckeln uppdaterades"
     }
+  },
+  "entity": {
+    "sensor": {
+      "energy_total": {
+        "name": "Total energi"
+      },
+      "hourly_energy": {
+        "name": "Timenergi"
+      },
+      "average_power": {
+        "name": "Timmedeleffekt"
+      },
+      "supply_temperature": {
+        "name": "Framledningstemperatur"
+      },
+      "return_temperature": {
+        "name": "Returtemperatur"
+      },
+      "temperature_difference": {
+        "name": "Temperaturskillnad"
+      },
+      "flow": {
+        "name": "Volymflöde"
+      },
+      "measurement_time": {
+        "name": "Mättidpunkt"
+      },
+      "reading_status": {
+        "name": "Mätstatus",
+        "state": {
+          "read": "Uppmätt",
+          "estimated": "Uppskattad"
+        }
+      }
+    }
   }
 }
