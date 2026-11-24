@@ -18,7 +18,7 @@ DESCRIPTIONS = (
     Description(key="supply_temperature", field="flow_temperature", device_class=SensorDeviceClass.TEMPERATURE, native_unit_of_measurement="°C", state_class=SensorStateClass.MEASUREMENT),
     Description(key="return_temperature", field="return_temperature", device_class=SensorDeviceClass.TEMPERATURE, native_unit_of_measurement="°C", state_class=SensorStateClass.MEASUREMENT),
     Description(key="temperature_difference", native_unit_of_measurement="K", state_class=SensorStateClass.MEASUREMENT),
-    Description(key="flow", field="flow", device_class=SensorDeviceClass.VOLUME_FLOW_RATE, native_unit_of_measurement="m³/h", state_class=SensorStateClass.MEASUREMENT),
+    Description(key="flow", field="flow", suggested_display_precision=3, device_class=SensorDeviceClass.VOLUME_FLOW_RATE, native_unit_of_measurement="m³/h", state_class=SensorStateClass.MEASUREMENT),
     Description(key="measurement_time", device_class=SensorDeviceClass.TIMESTAMP),
     Description(key="reading_status", field="status", device_class=SensorDeviceClass.ENUM, options=["read", "estimated"]),
 )

@@ -5,7 +5,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.helpers.event import async_track_point_in_utc_time
 from .api import ApiError, AuthenticationError
-from .polling import next_poll, current_sample
+from .polling import next_poll, current_sample, consumption_integrity
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -25,6 +25,8 @@ class SalonCoordinator(DataUpdateCoordinator):
         self.first_seen = None
         self.last_stamp = None
         self.retries = 0
+        self.pending_dates = set()
+        self.integrity = None
 
     async def _async_update_data(self):
         now = datetime.now(timezone.utc)
@@ -39,10 +41,27 @@ class SalonCoordinator(DataUpdateCoordinator):
                 self.first_seen = now
                 self.last_stamp = date
                 self.retries = 0
-            elif not current_sample(now, date):
+            elif not current_sample(now, date) or self.integrity == "pending":
                 self.retries += 1
             _LOGGER.debug("Measurement date=%s modified=%s first_seen=%s retries=%s", date, latest.get("modified_at"), self.first_seen, self.retries)
-            return latest
+            by_date = {stamp(row): row for row in rows}
+            previous = by_date.get(date - timedelta(hours=1))
+            self.integrity = consumption_integrity(latest, previous)
+            # Revisit previously pending rows using the overlapping query.
+            for pending in tuple(self.pending_dates):
+                row = by_date.get(pending)
+                if row is None:
+                    if pending < now - timedelta(hours=48):
+                        self.pending_dates.discard(pending)
+                    continue
+                if consumption_integrity(row, by_date.get(pending - timedelta(hours=1))) == "consistent":
+                    self.pending_dates.discard(pending)
+                    _LOGGER.debug("Consumption completed date=%s observed_delay=%s", pending, now - pending)
+            if self.integrity == "pending":
+                self.pending_dates.add(date)
+            _LOGGER.debug("Consumption integrity=%s pending_count=%s", self.integrity, len(self.pending_dates))
+            # Keep raw API rows intact; expose unknown instead of provisional consumption.
+            return {**latest, "consumption": None} if self.integrity == "pending" else latest
         except AuthenticationError:
             self.stop()
             raise ConfigEntryAuthFailed("Authentication failed") from None
@@ -55,7 +74,7 @@ class SalonCoordinator(DataUpdateCoordinator):
         if self.cancel_poll:
             self.cancel_poll()
         now = datetime.now(timezone.utc)
-        complete = self.last_update_success and self.last_stamp is not None and current_sample(now, self.last_stamp)
+        complete = self.last_update_success and self.last_stamp is not None and current_sample(now, self.last_stamp) and self.integrity != "pending"
         self.cancel_poll = async_track_point_in_utc_time(self.hass, self._poll, next_poll(now, complete))
 
     async def _poll(self, _now):
