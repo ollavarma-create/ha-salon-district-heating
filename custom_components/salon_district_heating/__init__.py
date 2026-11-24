@@ -1,21 +1,16 @@
 """Salon district heating integration."""
-from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from .api import Client, ApiError, AuthenticationError
+from .api import Client
+from .coordinator import SalonCoordinator
 
 async def async_setup_entry(hass, entry):
-    client = Client(async_get_clientsession(hass), entry.data["api_key"])
-    try:
-        locations = await client.locations()
-    except AuthenticationError:
-        raise ConfigEntryAuthFailed("Authentication failed") from None
-    except ApiError:
-        raise ConfigEntryNotReady("API unavailable") from None
-    if not any(row["id"] == entry.data["location_id"] for row in locations):
-        raise ConfigEntryAuthFailed("Location inaccessible")
-    entry.runtime_data = client
+    coordinator = SalonCoordinator(hass, entry, Client(async_get_clientsession(hass), entry.data["api_key"]))
+    await coordinator.async_config_entry_first_refresh()
+    entry.runtime_data = coordinator
+    await hass.config_entries.async_forward_entry_setups(entry, ["sensor"])
+    coordinator.schedule()
+    entry.async_on_unload(coordinator.stop)
     return True
 
 async def async_unload_entry(hass, entry):
-    return True
-
+    return await hass.config_entries.async_unload_platforms(entry, ["sensor"])
