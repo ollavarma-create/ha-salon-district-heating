@@ -21,3 +21,13 @@ The provider's internal processing schedule and modified_at semantics remain unc
 Two requests for the same location were made after the 12:00 local (10:00 UTC) record had completed. With modified_since=2026-11-24T10:15:00Z, five records were returned, including the 10:00 UTC record with consumption=1000 Wh. With modified_since=2026-11-24T10:30:00Z, four records were returned and the 10:00 UTC record was absent. Its modified_at remained 2026-11-24T10:15:25.513917Z despite the observed consumption change between 12:31 and 12:40 local time.
 
 This confirms that a client advancing its incremental synchronization cutoff beyond the original timestamp can miss a later consumption revision. The filter itself behaves as documented (modified_at >= cutoff); the observed timestamp does not reflect the consumption revision. The provider's internal implementation and intended semantics remain unconfirmed. Retain the overlapping date-range polling strategy. Historical backfill remains outside alpha.3 scope.
+
+## Observed energy resolution (2026-11-24)
+
+A LämpöVahti hourly CSV export for 2026-11-23 contains 24 rows: four at 1 kWh and twenty at 2 kWh, totaling 44 kWh (mean hourly power 1.833 kW). No fractional kWh values occur. The API observations to date likewise show consumption and cumulative readings in multiples of 1000 Wh. This is evidence of an observed 1 kWh reporting increment, not proof of the meter's intrinsic accuracy or a guaranteed API resolution.
+
+A plausible explanation is quantization of the cumulative meter reading before hourly differences are calculated. A constant actual power of 1.8 kW can therefore produce alternating reported hourly averages of 1 and 2 kW. The stage at which quantization occurs (meter, telemetry, backend or export) is unknown. Preserve API values without inventing additional precision. The hourly average power sensor represents reported hourly energy divided by one hour, not instantaneous power. Longer-period aggregation reduces the relative impact of cumulative-reading quantization, but does not establish billing accuracy.
+
+Supply/return temperatures and volume flow could support an independent approximate thermal power estimate, but their sampling and aggregation semantics are unconfirmed. Do not substitute such estimates for measured energy or billing data. No additional power sensor is introduced by this documentation change.
+
+Open questions: Is 1 kWh the intended reporting resolution? Can finer cumulative readings be exposed? Are temperatures and volume flow instantaneous samples or interval averages? The integration must remain usable even if these questions are not answered. Customer identifiers and raw customer exports are not published.
