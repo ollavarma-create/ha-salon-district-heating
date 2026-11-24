@@ -1,0 +1,33 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to LämpöVahti",
+        "data": {
+          "api_key": "API key"
+        }
+      },
+      "location": {
+        "title": "Select location",
+        "data": {
+          "location_id": "Location"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Renew API key",
+        "data": {
+          "api_key": "API key"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid API key",
+      "cannot_connect": "Cannot connect",
+      "no_locations": "No accessible locations"
+    },
+    "abort": {
+      "already_configured": "Already configured",
+      "reauth_successful": "API key updated"
+    }
+  }
+}

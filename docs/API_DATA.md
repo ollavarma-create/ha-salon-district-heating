@@ -97,3 +97,7 @@ These commands are illustrative and have not been tested against an authenticate
 - Handle `modified_since` inclusivity (`>=`) with idempotent upserts and a safe overlap.
 - Confirm how historical revisions should be reflected in Home Assistant statistics before implementation.
 - Verify interval timestamp meaning, retention limits, data latency and API error behavior with real responses.
+
+## Authenticated field validation (2026-11-24)
+
+Both endpoints returned HTTP 200 with X-API-Key authentication. A missing credential returned HTTP 401. A 24-hour UTC range returned 24 consecutive hourly records, all marked read, with all measurement fields populated. Cumulative readings increased consistently with hourly consumption. Observed energy values were quantized in 1000 Wh steps; this is an observation, not a guaranteed resolution. Most modification timestamps were about 15 minutes after the reading timestamp, with some delayed batch updates. Pagination envelope was confirmed, but multi-page traversal was not exercised. Timestamp interval meaning, flow averaging, retention and reset behavior remain open. No real customer identifiers or readings are included in fixtures.

@@ -1,0 +1,33 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Anslut till LämpöVahti",
+        "data": {
+          "api_key": "API-nyckel"
+        }
+      },
+      "location": {
+        "title": "Välj förbrukningsplats",
+        "data": {
+          "location_id": "Förbrukningsplats"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Förnya API-nyckeln",
+        "data": {
+          "api_key": "API-nyckel"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Ogiltig API-nyckel",
+      "cannot_connect": "Anslutningen misslyckades",
+      "no_locations": "Inga tillgängliga förbrukningsplatser"
+    },
+    "abort": {
+      "already_configured": "Integrationen är redan konfigurerad",
+      "reauth_successful": "API-nyckeln uppdaterades"
+    }
+  }
+}
