@@ -73,3 +73,7 @@ Before promising Energy Dashboard compatibility:
 ## Localization and v0.1 acceptance criteria
 
 English is the development and fallback language. Finnish (fi), Swedish (sv) and English (en) are mandatory for user-facing configuration, errors, entity names and documentation. Use translation keys and stable language-independent unique IDs. Automated tests must verify translation key parity. Use synthetic fixtures only. Initial polling target: 15 minutes, with a bounded overlapping UTC query window. Historical statistics import is deferred until timestamp semantics and correction handling are validated. Never infer instantaneous power from hourly energy or unverified flow semantics.
+
+## Mandatory UI-only configuration and deployment isolation
+
+Use ConfigFlow and ConfigEntry exclusively; no YAML configuration or import flow. Set config_flow=true in the manifest. Validate credentials and select a location in the UI. Support reauthentication and safe unloading. Never modify configuration.yaml or .storage directly. Keep the development checkout outside all HA configuration directories. Test against an isolated container with its own configuration directory and port 8124. Deploy only custom_components/salon_district_heating, never the repository root. Back up production before deployment. Test setup, reload, removal, authentication failure and all three locales before release.
