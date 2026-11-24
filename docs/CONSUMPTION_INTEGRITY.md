@@ -15,3 +15,9 @@ For the 12:00 local record, consumption was zero at 12:26, 12:30 and 12:31, and 
 - Do not rely on modified_at alone for revision detection.
 
 The provider's internal processing schedule and modified_at semantics remain unconfirmed. No customer identifiers, credentials or raw customer records are included in tests.
+
+## Incremental synchronization experiment (2026-11-24)
+
+Two requests for the same location were made after the 12:00 local (10:00 UTC) record had completed. With modified_since=2026-11-24T10:15:00Z, five records were returned, including the 10:00 UTC record with consumption=1000 Wh. With modified_since=2026-11-24T10:30:00Z, four records were returned and the 10:00 UTC record was absent. Its modified_at remained 2026-11-24T10:15:25.513917Z despite the observed consumption change between 12:31 and 12:40 local time.
+
+This confirms that a client advancing its incremental synchronization cutoff beyond the original timestamp can miss a later consumption revision. The filter itself behaves as documented (modified_at >= cutoff); the observed timestamp does not reflect the consumption revision. The provider's internal implementation and intended semantics remain unconfirmed. Retain the overlapping date-range polling strategy. Historical backfill remains outside alpha.3 scope.
