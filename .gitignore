@@ -25,3 +25,14 @@ credentials.json
 local_data/
 private/
 *.log
+
+# Never commit Home Assistant runtime configuration or credentials
+configuration.yaml
+secrets.yaml
+.storage/
+ha-config/
+ha-test-config/
+*.db
+*.db-shm
+*.db-wal
+.env
