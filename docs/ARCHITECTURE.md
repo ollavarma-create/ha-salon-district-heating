@@ -69,3 +69,7 @@ Before promising Energy Dashboard compatibility:
 - Semantics of historical corrections and null `modified_at`
 - Whether measured vs estimated inclusion should be user-configurable
 - Appropriate initial-history import mechanism and statistics correction behavior
+
+## Localization and v0.1 acceptance criteria
+
+English is the development and fallback language. Finnish (fi), Swedish (sv) and English (en) are mandatory for user-facing configuration, errors, entity names and documentation. Use translation keys and stable language-independent unique IDs. Automated tests must verify translation key parity. Use synthetic fixtures only. Initial polling target: 15 minutes, with a bounded overlapping UTC query window. Historical statistics import is deferred until timestamp semantics and correction handling are validated. Never infer instantaneous power from hourly energy or unverified flow semantics.
