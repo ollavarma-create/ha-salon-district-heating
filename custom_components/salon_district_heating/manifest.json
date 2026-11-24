@@ -1,7 +1,7 @@
 {
   "domain": "salon_district_heating",
   "name": "Salon Kaukolämpö",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "documentation": "https://github.com/ollavarma-create/ha-salon-district-heating",
   "issue_tracker": "https://github.com/ollavarma-create/ha-salon-district-heating/issues",
   "codeowners": [
