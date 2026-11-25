@@ -1,6 +1,9 @@
 {
   "domain": "salon_district_heating",
   "name": "Salon Kaukolämpö",
+  "categories": [
+    "energy.meters_monitoring"
+  ],
   "codeowners": [
     "@ollavarma-create"
   ],
