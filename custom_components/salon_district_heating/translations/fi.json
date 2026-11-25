@@ -5,7 +5,8 @@
         "title": "Yhdistä LämpöVahtiin",
         "data": {
           "api_key": "API-avain"
-        }
+        },
+        "description": "Vain seurantaan. Tuntienergian havaittu resoluutio on 1 kWh ja tiedot päivittyvät viiveellä. Tunnin keskiteho ei ole hetkellinen teho. Älä käytä tietoja ainoana perusteena reaaliaikaiselle lämmityksen ohjaukselle tai turvatoiminnoille."
       },
       "location": {
         "title": "Valitse käyttöpaikka",
@@ -61,6 +62,18 @@
         "state": {
           "read": "Mitattu",
           "estimated": "Arvioitu"
+        }
+      },
+      "consumption_time": {
+        "name": "Kulutuksen mittausajankohta"
+      },
+      "data_quality": {
+        "name": "Tiedon laatu",
+        "state": {
+          "confirmed": "Vahvistettu",
+          "pending": "Odottaa täydentymistä",
+          "stale": "Vanhentunut",
+          "unverifiable": "Ei varmennettavissa"
         }
       }
     }

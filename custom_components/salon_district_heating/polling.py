@@ -29,3 +29,31 @@ def consumption_integrity(latest, previous):
     if not valid(a) or not valid(b) or a < b:
         return "unverifiable"
     return "consistent" if abs((a - b) - consumption) < 0.001 else "pending"
+
+
+def consumption_view(by_date, now):
+    """Select a verified API value without inventing hourly measurements."""
+    date = max(by_date)
+    latest = by_date[date]
+    integrity = consumption_integrity(latest, by_date.get(date - timedelta(hours=1)))
+    selected = None
+    for candidate in sorted(by_date, reverse=True):
+        row = by_date[candidate]
+        if consumption_integrity(row, by_date.get(candidate - timedelta(hours=1))) == "consistent":
+            selected = candidate
+            break
+    # A normal update can be delayed until the next hourly polling cycle.
+    stale = now - date >= timedelta(hours=2)
+    quality = ("stale" if stale else
+               {"consistent": "confirmed", "pending": "pending",
+                "unverifiable": "unverifiable"}[integrity])
+    # Do not keep a value indefinitely or carry it across a meter replacement.
+    if selected is not None:
+        if (now - selected >= timedelta(hours=2)
+                or by_date[selected].get("serial_number") != latest.get("serial_number")):
+            selected = None
+    return {
+        "consumption": by_date[selected]["consumption"] if selected is not None else None,
+        "consumption_time": selected,
+        "data_quality": quality,
+    }
