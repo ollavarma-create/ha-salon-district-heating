@@ -71,3 +71,6 @@ Feedback, reproducible bug reports and pull requests are welcome as development 
 ## License
 
 MIT — see [LICENSE](LICENSE). API documentation and the LämpöVahti service belong to their respective owners.
+
+### Hourly data quality (alpha.4)
+Hourly energy and average power retain the last verified API value for up to two hours from its measurement time. See **Consumption measurement time** and **Data quality** for freshness. No interpolation is used. Do not use hourly values as the sole input for real-time heating control or safety functions. See [measurement limitations](docs/CONSUMPTION_INTEGRITY.md).
