@@ -6,7 +6,7 @@
 
 Epävirallinen MIT-lisensoitu integraatio Salon Kaukolämmön LämpöVahti-rajapintaan. Tarkoitus ei ole korvata Lämpövahtia, vaan tuoda kaukolämpödata Home Assistantiin rakennuksen energiatehokkuuden analysointia varten.
 
-**Tila:** 0.1.0-alpha.4, kokeellinen. Testattu erillisessä Home Assistant -ympäristössä. Tuotantoasennuksen ja energianäkymän testaus on kesken. Projekti on energiayhtiöstä riippumaton.
+**Tila:** 0.1.0-rc.1, kokeellinen. Testattu erillisessä Home Assistant -ympäristössä. Tuotantoasennuksen ja energianäkymän testaus on kesken. Projekti on energiayhtiöstä riippumaton.
 
 ## API-avain
 
