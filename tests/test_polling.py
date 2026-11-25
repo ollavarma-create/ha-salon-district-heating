@@ -45,3 +45,46 @@ def test_integrity_edge_cases(total, consumption, serial, expected):
 
 def test_missing_previous():
     assert polling.consumption_integrity({"consumption": 1000}, None) == "unverifiable"
+
+
+def test_consumption_view_pending_and_completed():
+    from datetime import timedelta
+    t = datetime(2026, 1, 1, 10, tzinfo=timezone.utc)
+    rows = {
+        t-timedelta(hours=2): {"serial_number": "synthetic", "reading_total": 10000},
+        t-timedelta(hours=1): {"serial_number": "synthetic", "reading_total": 12000, "consumption": 2000},
+        t: {"serial_number": "synthetic", "reading_total": 13000, "consumption": 0},
+    }
+    now = t+timedelta(minutes=20)
+    assert polling.consumption_view(rows, now) == {
+        "consumption": 2000, "consumption_time": t-timedelta(hours=1), "data_quality": "pending"}
+    assert rows[t]["consumption"] == 0
+    rows[t]["consumption"] = 1000
+    assert polling.consumption_view(rows, now) == {
+        "consumption": 1000, "consumption_time": t, "data_quality": "confirmed"}
+
+@pytest.mark.parametrize("serial,total,consumption,age,quality,value", [
+    ("synthetic", 12000, 0, 20, "confirmed", 0),
+    ("synthetic", 12500, 500, 20, "confirmed", 500),
+    ("replacement", 13000, 1000, 20, "unverifiable", None),
+    ("synthetic", 13000, 0, 70, "pending", None),
+    ("synthetic", 13000, 1000, 120, "stale", None),
+])
+def test_consumption_view_boundaries(serial,total,consumption,age,quality,value):
+    from datetime import timedelta
+    t = datetime(2026, 1, 1, 10, tzinfo=timezone.utc)
+    rows = {
+        t-timedelta(hours=2): {"serial_number": "synthetic", "reading_total": 10000},
+        t-timedelta(hours=1): {"serial_number": "synthetic", "reading_total": 12000, "consumption": 2000},
+        t: {"serial_number": serial, "reading_total": total, "consumption": consumption},
+    }
+    result = polling.consumption_view(rows, t+timedelta(minutes=age))
+    assert result["data_quality"] == quality
+    assert result["consumption"] == value
+    if value is None:
+        assert result["consumption_time"] is None
+
+def test_consumption_view_missing_predecessor():
+    t = datetime(2026, 1, 1, 10, tzinfo=timezone.utc)
+    assert polling.consumption_view({t: {"consumption": 1000}}, t) == {
+        "consumption": None, "consumption_time": None, "data_quality": "unverifiable"}
