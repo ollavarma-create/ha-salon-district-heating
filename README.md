@@ -1,76 +1,36 @@
 # Salon District Heating for Home Assistant
 
-[![Status: Planning](https://img.shields.io/badge/status-planning-blue)](#project-status)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[English](README.md) | [Suomi](README.fi.md) | [Svenska](README.sv.md)
 
-An **unofficial, open-source Home Assistant integration** for the **Salon Kaukolämpö LämpöVahti API**, intended to help district-heating customers monitor their energy use and understand their heating system.
+![Project logo](custom_components/salon_district_heating/brand/icon.png)
 
-> **Project status: planning / initial development.** No installable integration is available yet. This project is independent of Salon Kaukolämpö and is not endorsed or supported by the utility.
+An unofficial MIT-licensed integration for the Salon Kaukolämpö LämpöVahti API. It complements rather than replaces LämpöVahti by making district heating data available for building energy efficiency analysis in Home Assistant.
 
-## Goals
+**Status:** 0.1.0-alpha.4, experimental. Tested in a separate Home Assistant environment; production installation and Energy Dashboard validation are pending. Independent of the utility.
 
-- Authenticate using a user-provided LämpöVahti API key.
-- Discover the locations available to that key.
-- Retrieve hourly district-heating energy consumption and available meter measurements.
-- Expose suitable Home Assistant entities and support long-term energy analysis.
-- Handle historical readings, API pagination, missing measurements and subsequently revised data responsibly.
-- Eventually provide a straightforward installation path, potentially through HACS.
+## API key
 
-## Available API data
+1. Sign in to [LämpöVahti](https://lampovahti.salonkaukolampo.fi/login).
+2. Open Tilini (My account), then API-avaimet (API keys).
+3. Select Luo uusi avain (Create new key). Keep the key private. Contact the utility if API access is missing.
 
-The published OpenAPI 3.0.3 specification describes the following fields:
+## Installation for testers
 
-| Field | Meaning | Unit |
-| --- | --- | --- |
-| `consumption` | Energy consumed in the measurement interval (hourly readings) | Wh |
-| `reading_total` | Cumulative energy meter reading; nullable | Wh |
-| `flow_temperature` | District-heating supply temperature; nullable | °C |
-| `return_temperature` | District-heating return temperature; nullable | °C |
-| `flow` | Flow rate; nullable | m³/h |
-| `date` | Measurement timestamp | UTC ISO 8601 |
-| `status` | `read` (actual) or `estimated` (gap-filled) | — |
-| `modified_at` | Timestamp of last modification; nullable | UTC ISO 8601 |
-| `location_id` | Location identifier | — |
-| `serial_number` | Meter serial number, if available | — |
+Home Assistant 2026.11.0 is the initial compatibility target. Back up your configuration. Copy the repository's `custom_components/salon_district_heating` directory into your Home Assistant configuration's `custom_components` directory. Restart Home Assistant. Under Settings → Devices & services → Add integration, select Salon Kaukolämpö, enter your API key and choose a location. No YAML configuration is needed.
 
-See [API data reference](docs/API_DATA.md) for the exact endpoint and pagination details, and [architecture](docs/ARCHITECTURE.md) for design decisions still to be validated.
+Community distribution metadata is prepared; installation through the community distribution UI and catalog inclusion are not yet verified.
 
-## API documentation
+## Sensors and limitations
 
-Official Swagger documentation: https://api-lampovahti.salonkaukolampo.fi/external/api/docs/
+Cumulative energy (kWh), hourly energy (kWh), hourly average power (kW), supply and return temperatures (°C), temperature difference (K), flow (m³/h), measurement time, reading status, consumption measurement time and data quality.
 
-The OpenAPI specification defines a server base path of `/external/api` and these routes:
+Observed energy resolution is 1 kWh. Hourly average power is not instantaneous power. Delayed or inconsistent consumption can retain the last confirmed value for up to two hours from its measurement time; check the quality and consumption timestamp. No interpolation. Do not use as the sole input for real-time heating control or safety functions.
 
-- `GET /external/api/v1/locations/` — accessible locations
-- `GET /external/api/v1/consumptions/` — hourly consumption records
+Data collection starts at installation; no historical import, separate database or tariff engine. Home Assistant manages its own history and statistics. Energy Dashboard compatibility is being tested.
 
-Authentication: `X-API-Key` HTTP request header. API keys are created in the LämpöVahti account. Published limits: **60 requests/minute and 10,000 requests/day per API key** (HTTP 429 when exceeded).
+## Technical documentation
 
-**Never commit API keys, customer addresses, meter serial numbers, raw account responses or other personal information.**
+- [Official API documentation](https://api-lampovahti.salonkaukolampo.fi/external/api/docs/)
+- [API fields](docs/API_DATA.md), [architecture](docs/ARCHITECTURE.md), [measurement limitations](docs/CONSUMPTION_INTEGRITY.md), [distribution](docs/DISTRIBUTION.md)
 
-## Installation
-
-**Not available yet.** The repository currently contains planning and API documentation only. Please do not attempt to add it as a Home Assistant custom integration until code and installation instructions are published.
-
-## Roadmap
-
-- [x] Establish repository and license
-- [x] Document API response models and integration design
-- [ ] Implement an API client with authentication, pagination, errors and tests
-- [ ] Add Home Assistant config flow and per-location devices/entities
-- [ ] Validate sensor units, availability, statistics and Energy Dashboard compatibility
-- [ ] Test initial history import and handling of revised readings
-- [ ] Test on a real Home Assistant installation
-- [ ] Publish an initial pre-release and installation instructions
-- [ ] Evaluate HACS support
-
-## Development and contributions
-
-Feedback, reproducible bug reports and pull requests are welcome as development progresses. Please remove credentials and identifying meter/location information from logs and screenshots before sharing them.
-
-## License
-
-MIT — see [LICENSE](LICENSE). API documentation and the LämpöVahti service belong to their respective owners.
-
-### Hourly data quality (alpha.4)
-Hourly energy and average power retain the last verified API value for up to two hours from its measurement time. See **Consumption measurement time** and **Data quality** for freshness. No interpolation is used. Do not use hourly values as the sole input for real-time heating control or safety functions. See [measurement limitations](docs/CONSUMPTION_INTEGRITY.md).
+Never publish API keys, addresses, meter serial numbers or identifying logs. Report anonymized issues via GitHub. [MIT license](LICENSE).
