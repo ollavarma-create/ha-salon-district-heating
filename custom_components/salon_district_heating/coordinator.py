@@ -5,7 +5,7 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.helpers.event import async_track_point_in_utc_time
 from .api import ApiError, AuthenticationError
-from .polling import next_poll, current_sample, consumption_integrity
+from .polling import next_poll, current_sample, consumption_integrity, consumption_view
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -60,8 +60,8 @@ class SalonCoordinator(DataUpdateCoordinator):
             if self.integrity == "pending":
                 self.pending_dates.add(date)
             _LOGGER.debug("Consumption integrity=%s pending_count=%s", self.integrity, len(self.pending_dates))
-            # Keep raw API rows intact; expose unknown instead of provisional consumption.
-            return {**latest, "consumption": None} if self.integrity == "pending" else latest
+            # Keep raw API rows intact; expose the latest verified consumption separately.
+            return {**latest, **consumption_view(by_date, now)}
         except AuthenticationError:
             self.stop()
             raise ConfigEntryAuthFailed("Authentication failed") from None
@@ -74,7 +74,7 @@ class SalonCoordinator(DataUpdateCoordinator):
         if self.cancel_poll:
             self.cancel_poll()
         now = datetime.now(timezone.utc)
-        complete = self.last_update_success and self.last_stamp is not None and current_sample(now, self.last_stamp) and self.integrity != "pending"
+        complete = self.last_update_success and self.last_stamp is not None and current_sample(now, self.last_stamp) and self.integrity == "consistent"
         self.cancel_poll = async_track_point_in_utc_time(self.hass, self._poll, next_poll(now, complete))
 
     async def _poll(self, _now):
