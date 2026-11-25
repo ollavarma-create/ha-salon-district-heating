@@ -5,7 +5,8 @@
         "title": "Anslut till LämpöVahti",
         "data": {
           "api_key": "API-nyckel"
-        }
+        },
+        "description": "Endast för uppföljning. Observerad upplösning för timenergin är 1 kWh och uppdateringar sker med fördröjning. Timmedeleffekt är inte momentan effekt. Använd inte uppgifterna som enda underlag för värmestyrning i realtid eller säkerhetsfunktioner."
       },
       "location": {
         "title": "Välj förbrukningsplats",
@@ -61,6 +62,18 @@
         "state": {
           "read": "Uppmätt",
           "estimated": "Uppskattad"
+        }
+      },
+      "consumption_time": {
+        "name": "Förbrukningens mättidpunkt"
+      },
+      "data_quality": {
+        "name": "Datakvalitet",
+        "state": {
+          "confirmed": "Bekräftad",
+          "pending": "Inväntar komplettering",
+          "stale": "Föråldrad",
+          "unverifiable": "Kan inte verifieras"
         }
       }
     }
