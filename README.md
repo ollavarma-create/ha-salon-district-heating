@@ -16,9 +16,13 @@ An unofficial MIT-licensed integration for the Salon Kaukolämpö LämpöVahti A
 
 ## Installation for testers
 
-Home Assistant 2026.11.0 is the initial compatibility target. Back up your configuration. Copy the repository's `custom_components/salon_district_heating` directory into your Home Assistant configuration's `custom_components` directory. Restart Home Assistant. Under Settings → Devices & services → Add integration, select Salon Kaukolämpö, enter your API key and choose a location. No YAML configuration is needed.
+<!-- ha-marketplace:exclude-start -->
+Back up your configuration. In Home Assistant 2026.11.0 or later, open Settings → Marketplace → Add from link and enter https://github.com/ollavarma-create/ha-salon-district-heating. Select the integration and install it. Enable pre-releases when testing a release candidate. Marketplace installation is not yet field-tested.
 
-Community distribution metadata is prepared; installation through the community distribution UI and catalog inclusion are not yet verified.
+Alternatively, copy `custom_components/salon_district_heating` into the configuration's `custom_components` directory and restart Home Assistant.
+<!-- ha-marketplace:exclude-end -->
+
+Under Settings → Devices & services → Add integration, select Salon Kaukolämpö, enter your API key and choose a location. No YAML configuration is needed.
 
 ## Sensors and limitations
 
