@@ -1,0 +1,67 @@
+title: District heating
+views:
+  - title: District heating
+    path: district-heating
+    icon: mdi:radiator
+    cards:
+      - type: markdown
+        content: |
+          ## District heating
+          Monitoring only. Measurements are delayed. Energy history starts
+          when Home Assistant records the meter. Consumption charts use
+          recorded meter changes, not original API measurement timestamps.
+      - type: entities
+        title: Latest measurements
+        entities:
+          - sensor.salon_kaukolampo_hourly_energy
+          - sensor.salon_kaukolampo_hourly_average_power
+          - sensor.salon_kaukolampo_total_energy
+          - sensor.salon_kaukolampo_supply_temperature
+          - sensor.salon_kaukolampo_return_temperature
+          - sensor.salon_kaukolampo_temperature_difference
+          - sensor.salon_kaukolampo_volume_flow
+      - type: statistics-graph
+        title: Daily consumption
+        chart_type: bar
+        period: day
+        days_to_show: 7
+        stat_types:
+          - change
+        entities:
+          - sensor.salon_kaukolampo_total_energy
+      - type: statistics-graph
+        title: Weekly consumption
+        chart_type: bar
+        period: week
+        days_to_show: 56
+        stat_types:
+          - change
+        entities:
+          - sensor.salon_kaukolampo_total_energy
+      - type: statistics-graph
+        title: Monthly consumption
+        chart_type: bar
+        period: month
+        days_to_show: 365
+        stat_types:
+          - change
+        entities:
+          - sensor.salon_kaukolampo_total_energy
+      - type: history-graph
+        title: Supply and return temperatures
+        hours_to_show: 48
+        entities:
+          - sensor.salon_kaukolampo_supply_temperature
+          - sensor.salon_kaukolampo_return_temperature
+      - type: history-graph
+        title: Volume flow
+        hours_to_show: 48
+        entities:
+          - sensor.salon_kaukolampo_volume_flow
+      - type: entities
+        title: Data quality
+        entities:
+          - sensor.salon_kaukolampo_reading_status
+          - sensor.salon_kaukolampo_measurement_time
+          - sensor.salon_kaukolampo_consumption_measurement_time
+          - sensor.salon_kaukolampo_data_quality
