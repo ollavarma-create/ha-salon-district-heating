@@ -16,9 +16,13 @@ Epävirallinen MIT-lisensoitu integraatio Salon Kaukolämmön LämpöVahti-rajap
 
 ## Asennus testaajille
 
-Alustava yhteensopivuustavoite on Home Assistant 2026.11.0. Varmuuskopioi asetukset. Kopioi repositorion `custom_components/salon_district_heating`-hakemisto Home Assistantin asetushakemiston `custom_components`-hakemistoon. Käynnistä Home Assistant uudelleen. Valitse Asetukset → Laitteet ja palvelut → Lisää integraatio → Salon Kaukolämpö. Syötä API-avain ja valitse käyttöpaikka. YAML-asetuksia ei tarvita.
+<!-- ha-marketplace:exclude-start -->
+Varmuuskopioi asetukset. Avaa Home Assistant 2026.11.0:ssa tai uudemmassa Asetukset → Marketplace → Add from link ja syötä https://github.com/ollavarma-create/ha-salon-district-heating. Valitse integraatio ja asenna se. Salli ennakkojulkaisut RC-version testaamiseksi. Marketplace-asennusta ei ole vielä kenttätestattu.
 
-Yhteisöjakelun metatiedot on valmisteltu, mutta jakelukäyttöliittymän kautta tapahtuvaa asennusta ja katalogiin hyväksyntää ei ole vielä vahvistettu.
+Vaihtoehtoisesti kopioi `custom_components/salon_district_heating` asetushakemiston `custom_components`-hakemistoon ja käynnistä Home Assistant uudelleen.
+<!-- ha-marketplace:exclude-end -->
+
+Valitse Asetukset → Laitteet ja palvelut → Lisää integraatio → Salon Kaukolämpö. Syötä API-avain ja valitse käyttöpaikka. YAML-asetuksia ei tarvita.
 
 ## Sensorit ja rajoitukset
 
