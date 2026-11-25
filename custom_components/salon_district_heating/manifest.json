@@ -1,13 +1,13 @@
 {
   "domain": "salon_district_heating",
   "name": "Salon Kaukolämpö",
-  "version": "0.1.0-alpha.4",
-  "documentation": "https://github.com/ollavarma-create/ha-salon-district-heating",
-  "issue_tracker": "https://github.com/ollavarma-create/ha-salon-district-heating/issues",
   "codeowners": [
     "@ollavarma-create"
   ],
   "config_flow": true,
+  "documentation": "https://github.com/ollavarma-create/ha-salon-district-heating",
   "iot_class": "cloud_polling",
-  "requirements": []
+  "issue_tracker": "https://github.com/ollavarma-create/ha-salon-district-heating/issues",
+  "requirements": [],
+  "version": "0.1.0-alpha.4"
 }
