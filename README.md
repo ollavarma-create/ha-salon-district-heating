@@ -6,7 +6,7 @@
 
 An unofficial MIT-licensed integration for the Salon Kaukolämpö LämpöVahti API. It complements rather than replaces LämpöVahti by making district heating data available for building energy efficiency analysis in Home Assistant.
 
-**Status:** 0.1.0-alpha.4, experimental. Tested in a separate Home Assistant environment; production installation and Energy Dashboard validation are pending. Independent of the utility.
+**Status:** 0.1.0-rc.1, experimental. Tested in a separate Home Assistant environment; production installation and Energy Dashboard validation are pending. Independent of the utility.
 
 ## API key
 
