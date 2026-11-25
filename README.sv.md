@@ -6,7 +6,7 @@
 
 En inofficiell integration med MIT-licens för Salon Kaukolämpös LämpöVahti-API. Integrationen kompletterar LämpöVahti genom att göra fjärrvärmedata tillgängliga i Home Assistant för analys av byggnadens energieffektivitet.
 
-**Status:** 0.1.0-alpha.4, experimentell. Testad i en separat Home Assistant-miljö. Produktionsinstallation och energipanelen återstår att verifiera. Projektet är oberoende av energibolaget.
+**Status:** 0.1.0-rc.1, experimentell. Testad i en separat Home Assistant-miljö. Produktionsinstallation och energipanelen återstår att verifiera. Projektet är oberoende av energibolaget.
 
 ## API-nyckel
 
