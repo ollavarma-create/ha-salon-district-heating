@@ -16,9 +16,13 @@ En inofficiell integration med MIT-licens för Salon Kaukolämpös LämpöVahti-
 
 ## Installation för testare
 
-Det preliminära kompatibilitetsmålet är Home Assistant 2026.11.0. Säkerhetskopiera konfigurationen. Kopiera katalogen `custom_components/salon_district_heating` till katalogen `custom_components` i Home Assistants konfigurationskatalog. Starta om Home Assistant. Välj Inställningar → Enheter och tjänster → Lägg till integration → Salon Kaukolämpö. Ange API-nyckeln och välj förbrukningsplats. Ingen YAML-konfiguration behövs.
+<!-- ha-marketplace:exclude-start -->
+Säkerhetskopiera konfigurationen. Öppna Inställningar → Marketplace → Add from link i Home Assistant 2026.11.0 eller senare och ange https://github.com/ollavarma-create/ha-salon-district-heating. Välj integrationen och installera den. Aktivera förhandsversioner för RC-testning. Marketplace-installationen har ännu inte testats i praktiken.
 
-Metadata för gemenskapsdistribution har förberetts, men installation via distributionsgränssnittet och kataloginkludering har ännu inte verifierats.
+Alternativt kopierar du `custom_components/salon_district_heating` till konfigurationskatalogens `custom_components` och startar om Home Assistant.
+<!-- ha-marketplace:exclude-end -->
+
+Välj Inställningar → Enheter och tjänster → Lägg till integration → Salon Kaukolämpö. Ange API-nyckeln och välj förbrukningsplats. Ingen YAML-konfiguration behövs.
 
 ## Sensorer och begränsningar
 
