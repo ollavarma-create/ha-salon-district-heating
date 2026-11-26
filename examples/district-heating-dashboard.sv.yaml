@@ -1,0 +1,144 @@
+# Replace sensor.salon_kaukolampo_ with your actual entity prefix if needed.
+title: Fjärrvärme
+views:
+  - title: District heating
+    path: district-heating
+    icon: mdi:radiator
+    cards:
+      - type: markdown
+        content: |
+          ## Fjärrvärme
+          Endast för övervakning. Observerad energiupplösning är 1 kWh.
+          Timmedeleffekt är inte momentan effekt.
+          Använd inte fördröjda mätningar som enda underlag för realtidsstyrning eller säkerhetsfunktioner.
+          Energihistoriken börjar när HA registrerar mätaren.
+          Förbrukningsdiagram använder registreringstider, inte API:s ursprungliga mättider.
+      - type: entities
+        title: Datakvalitet
+        show_header_toggle: false
+        entities:
+          - entity: sensor.salon_kaukolampo_data_quality
+            name: Datakvalitet
+          - entity: sensor.salon_kaukolampo_reading_status
+            name: Mätstatus
+          - entity: sensor.salon_kaukolampo_measurement_time
+            name: Senaste mätning
+          - entity: sensor.salon_kaukolampo_consumption_measurement_time
+            name: Visad förbruknings mättid
+      - type: entities
+        title: Energi
+        show_header_toggle: false
+        entities:
+          - entity: sensor.salon_kaukolampo_hourly_energy
+            name: Senast rapporterad timenergi
+          - entity: sensor.salon_kaukolampo_hourly_average_power
+            name: Senaste timmedeleffekt
+          - entity: sensor.salon_kaukolampo_total_energy
+            name: Ackumulerad mätarenergi
+      - type: entities
+        title: Värmeöverföring
+        show_header_toggle: false
+        entities:
+          - entity: sensor.salon_kaukolampo_supply_temperature
+            name: Framledningstemperatur
+          - entity: sensor.salon_kaukolampo_return_temperature
+            name: Returtemperatur
+          - entity: sensor.salon_kaukolampo_temperature_difference
+            name: Temperaturskillnad
+          - entity: sensor.salon_kaukolampo_volume_flow
+            name: Volymflöde
+      - type: picture-elements
+        image: /local/salon_district_heating/heat-transfer-sv.svg
+        elements:
+          - type: state-label
+            entity: sensor.salon_kaukolampo_supply_temperature
+            style:
+              left: 18.75%
+              top: 25%
+              color: "#ffffff"
+              font-size: clamp(12px, 2.5vw, 20px)
+              font-weight: bold
+          - type: state-label
+            entity: sensor.salon_kaukolampo_return_temperature
+            style:
+              left: 18.75%
+              top: 83%
+              color: "#ffffff"
+              font-size: clamp(12px, 2.5vw, 20px)
+              font-weight: bold
+          - type: state-label
+            entity: sensor.salon_kaukolampo_temperature_difference
+            style:
+              left: 50%
+              top: 58%
+              color: "#ffffff"
+              font-size: clamp(12px, 2.5vw, 20px)
+              font-weight: bold
+          - type: state-label
+            entity: sensor.salon_kaukolampo_volume_flow
+            style:
+              left: 81.25%
+              top: 49%
+              color: "#ffffff"
+              font-size: clamp(12px, 2.5vw, 20px)
+              font-weight: bold
+      - type: statistics-graph
+        title: Registrerad timförbrukning
+        chart_type: bar
+        period: hour
+        days_to_show: 2
+        stat_types:
+          - change
+        entities:
+          - entity: sensor.salon_kaukolampo_total_energy
+            name: Registrerad förbrukning
+      - type: statistics-graph
+        title: Registrerad dygnsförbrukning
+        chart_type: bar
+        period: day
+        days_to_show: 7
+        stat_types:
+          - change
+        entities:
+          - entity: sensor.salon_kaukolampo_total_energy
+            name: Registrerad förbrukning
+      - type: statistics-graph
+        title: Registrerad veckoförbrukning
+        chart_type: bar
+        period: week
+        days_to_show: 56
+        stat_types:
+          - change
+        entities:
+          - entity: sensor.salon_kaukolampo_total_energy
+            name: Registrerad förbrukning
+      - type: statistics-graph
+        title: Registrerad månadsförbrukning
+        chart_type: bar
+        period: month
+        days_to_show: 365
+        stat_types:
+          - change
+        entities:
+          - entity: sensor.salon_kaukolampo_total_energy
+            name: Registrerad förbrukning
+      - type: history-graph
+        title: Fram- och returtemperaturer
+        hours_to_show: 48
+        entities:
+          - entity: sensor.salon_kaukolampo_supply_temperature
+            name: Framledning
+          - entity: sensor.salon_kaukolampo_return_temperature
+            name: Retur
+      - type: history-graph
+        title: Temperaturskillnad
+        hours_to_show: 48
+        entities:
+          - entity: sensor.salon_kaukolampo_temperature_difference
+            name: Temperaturskillnad
+      - type: history-graph
+        title: Volymflöde
+        hours_to_show: 48
+        entities:
+          - entity: sensor.salon_kaukolampo_volume_flow
+            name: Volymflöde
