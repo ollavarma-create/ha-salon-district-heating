@@ -25,8 +25,10 @@
       "reconfigure": {
         "title": "Päivitä vanhenemispäivä",
         "data": {
-          "api_key_expiry": "API-avaimen vanhenemispäivä (valinnainen)"
-        }
+          "api_key_expiry": "API-avaimen vanhenemispäivä (valinnainen)",
+          "clear_expiry": "Poista vanhenemispäivä käytöstä"
+        },
+        "description": "Poistovalinta poistaa päivämäärän ja siihen liittyvät varoitukset. API-avain säilyy ennallaan."
       }
     },
     "error": {
@@ -37,7 +39,8 @@
     "abort": {
       "already_configured": "Integraatio on jo määritetty",
       "reauth_successful": "API-avain päivitetty",
-      "reconfigure_successful": "Vanhenemispäivä päivitetty"
+      "reconfigure_successful": "Vanhenemispäivä päivitetty",
+      "expiry_updated": "Vanhenemispäivän asetukset päivitetty"
     }
   },
   "entity": {
