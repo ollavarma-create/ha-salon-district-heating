@@ -121,6 +121,27 @@
       },
       "hourly_energy_cost": {
         "name": "Timenergikostnad"
+      },
+      "accumulated_energy_cost": {
+        "name": "Ackumulerad energikostnad"
+      },
+      "monthly_energy_cost": {
+        "name": "Månadens registrerade energikostnad"
+      },
+      "monthly_basic_cost": {
+        "name": "Uppskattad grundavgift för hela månaden"
+      },
+      "monthly_total_cost": {
+        "name": "Uppskattad total månadskostnad"
+      },
+      "effective_energy_price": {
+        "name": "Uppskattat effektivt energipris"
+      },
+      "monthly_cost_hours": {
+        "name": "Månadens registrerade timmar"
+      },
+      "monthly_cost_energy": {
+        "name": "Månadens registrerade energi"
       }
     }
   },
@@ -154,7 +175,8 @@
           "next_date": "Ikraftträdandedatum",
           "next_energy": "Nästa energipris (€/MWh)",
           "next_basic": "Nästa grundavgift (€/månad)"
-        }
+        },
+        "description": "Priser inklusive moms. Ange energipris i EUR/MWh, t.ex. 75.94, inte EUR/kWh."
       }
     },
     "error": {

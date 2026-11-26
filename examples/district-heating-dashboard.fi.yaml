@@ -154,3 +154,24 @@ views:
             name: Päiviä jäljellä
           - entity: sensor.salon_kaukolampo_last_successful_api_request
             name: Viimeisin onnistunut API-kutsu
+      - type: markdown
+        content: |
+          ## Tariffit ja kustannusarviot
+          Energiakustannus kattaa vain vahvistetut kirjatut tunnit. Kokonaishinta sisältää koko kuukauden arvioidun perusmaksun; vajaa kuukausi ei vastaa laskua.
+      - type: entities
+        title: Tariffit ja kustannusarviot
+        show_header_toggle: false
+        entities:
+          - sensor.salon_kaukolampo_current_energy_tariff
+          - sensor.salon_kaukolampo_current_monthly_basic_fee
+          - sensor.salon_kaukolampo_next_energy_tariff
+          - sensor.salon_kaukolampo_next_monthly_basic_fee
+          - sensor.salon_kaukolampo_next_tariff_effective_date
+          - sensor.salon_kaukolampo_hourly_energy_cost
+          - sensor.salon_kaukolampo_accumulated_energy_cost
+          - sensor.salon_kaukolampo_monthly_recorded_energy_cost
+          - sensor.salon_kaukolampo_estimated_full_month_basic_fee
+          - sensor.salon_kaukolampo_monthly_estimated_total_cost
+          - sensor.salon_kaukolampo_effective_estimated_energy_price
+          - sensor.salon_kaukolampo_monthly_recorded_hours
+          - sensor.salon_kaukolampo_monthly_recorded_energy

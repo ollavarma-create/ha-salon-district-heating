@@ -121,6 +121,27 @@
       },
       "hourly_energy_cost": {
         "name": "Tuntienergian kustannus"
+      },
+      "accumulated_energy_cost": {
+        "name": "Kertynyt energiakustannus"
+      },
+      "monthly_energy_cost": {
+        "name": "Kuukauden kirjattu energiakustannus"
+      },
+      "monthly_basic_cost": {
+        "name": "Arvio koko kuukauden perusmaksusta"
+      },
+      "monthly_total_cost": {
+        "name": "Kuukauden arvioitu kokonaiskustannus"
+      },
+      "effective_energy_price": {
+        "name": "Arvioitu energian kokonaishinta"
+      },
+      "monthly_cost_hours": {
+        "name": "Kuukauden kirjatut tunnit"
+      },
+      "monthly_cost_energy": {
+        "name": "Kuukauden kirjattu energia"
       }
     }
   },
@@ -154,7 +175,8 @@
           "next_date": "Voimaantulopäivä",
           "next_energy": "Seuraava energiamaksu (€/MWh)",
           "next_basic": "Seuraava perusmaksu (€/kk)"
-        }
+        },
+        "description": "Hinnat sisältävät ALV:n. Syötä energiamaksu muodossa EUR/MWh, esimerkiksi 75.94, ei EUR/kWh."
       }
     },
     "error": {
