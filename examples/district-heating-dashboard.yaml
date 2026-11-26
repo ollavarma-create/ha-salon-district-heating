@@ -1,3 +1,4 @@
+# Replace sensor.salon_kaukolampo_ with your actual entity prefix if needed.
 title: District heating
 views:
   - title: District heating
@@ -7,61 +8,102 @@ views:
       - type: markdown
         content: |
           ## District heating
-          Monitoring only. Measurements are delayed. Energy history starts
-          when Home Assistant records the meter. Consumption charts use
-          recorded meter changes, not original API measurement timestamps.
+          Monitoring only. Observed energy resolution: 1 kWh.
+          Hourly average power is not instantaneous power.
+          Do not use these delayed measurements alone for real-time control or safety.
+          Energy history starts when Home Assistant records the meter.
+          Consumption charts use recorded meter changes, not original API timestamps.
       - type: entities
-        title: Latest measurements
+        title: Data quality
+        show_header_toggle: false
         entities:
-          - sensor.salon_kaukolampo_hourly_energy
-          - sensor.salon_kaukolampo_hourly_average_power
-          - sensor.salon_kaukolampo_total_energy
-          - sensor.salon_kaukolampo_supply_temperature
-          - sensor.salon_kaukolampo_return_temperature
-          - sensor.salon_kaukolampo_temperature_difference
-          - sensor.salon_kaukolampo_volume_flow
+          - entity: sensor.salon_kaukolampo_data_quality
+            name: Data quality
+          - entity: sensor.salon_kaukolampo_reading_status
+            name: Reading status
+          - entity: sensor.salon_kaukolampo_measurement_time
+            name: Latest measurement
+          - entity: sensor.salon_kaukolampo_consumption_measurement_time
+            name: Displayed consumption time
+      - type: entities
+        title: Energy
+        show_header_toggle: false
+        entities:
+          - entity: sensor.salon_kaukolampo_hourly_energy
+            name: Last reported hourly energy
+          - entity: sensor.salon_kaukolampo_hourly_average_power
+            name: Last reported hourly average power
+          - entity: sensor.salon_kaukolampo_total_energy
+            name: Cumulative meter energy
+      - type: entities
+        title: Heat transfer
+        show_header_toggle: false
+        entities:
+          - entity: sensor.salon_kaukolampo_supply_temperature
+            name: Supply temperature
+          - entity: sensor.salon_kaukolampo_return_temperature
+            name: Return temperature
+          - entity: sensor.salon_kaukolampo_temperature_difference
+            name: Temperature difference
+          - entity: sensor.salon_kaukolampo_volume_flow
+            name: Volume flow
       - type: statistics-graph
-        title: Daily consumption
+        title: Hourly recorded consumption
+        chart_type: bar
+        period: hour
+        days_to_show: 2
+        stat_types:
+          - change
+        entities:
+          - entity: sensor.salon_kaukolampo_total_energy
+            name: Recorded consumption
+      - type: statistics-graph
+        title: Daily recorded consumption
         chart_type: bar
         period: day
         days_to_show: 7
         stat_types:
           - change
         entities:
-          - sensor.salon_kaukolampo_total_energy
+          - entity: sensor.salon_kaukolampo_total_energy
+            name: Recorded consumption
       - type: statistics-graph
-        title: Weekly consumption
+        title: Weekly recorded consumption
         chart_type: bar
         period: week
         days_to_show: 56
         stat_types:
           - change
         entities:
-          - sensor.salon_kaukolampo_total_energy
+          - entity: sensor.salon_kaukolampo_total_energy
+            name: Recorded consumption
       - type: statistics-graph
-        title: Monthly consumption
+        title: Monthly recorded consumption
         chart_type: bar
         period: month
         days_to_show: 365
         stat_types:
           - change
         entities:
-          - sensor.salon_kaukolampo_total_energy
+          - entity: sensor.salon_kaukolampo_total_energy
+            name: Recorded consumption
       - type: history-graph
         title: Supply and return temperatures
         hours_to_show: 48
         entities:
-          - sensor.salon_kaukolampo_supply_temperature
-          - sensor.salon_kaukolampo_return_temperature
+          - entity: sensor.salon_kaukolampo_supply_temperature
+            name: Supply
+          - entity: sensor.salon_kaukolampo_return_temperature
+            name: Return
+      - type: history-graph
+        title: Temperature difference
+        hours_to_show: 48
+        entities:
+          - entity: sensor.salon_kaukolampo_temperature_difference
+            name: Temperature difference
       - type: history-graph
         title: Volume flow
         hours_to_show: 48
         entities:
-          - sensor.salon_kaukolampo_volume_flow
-      - type: entities
-        title: Data quality
-        entities:
-          - sensor.salon_kaukolampo_reading_status
-          - sensor.salon_kaukolampo_measurement_time
-          - sensor.salon_kaukolampo_consumption_measurement_time
-          - sensor.salon_kaukolampo_data_quality
+          - entity: sensor.salon_kaukolampo_volume_flow
+            name: Volume flow
