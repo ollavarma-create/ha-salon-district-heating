@@ -17,7 +17,7 @@ def upcoming(history, day):
 
 def configure(history, values, today):
     if not values.get("enabled"):
-        return [r for r in history if r["date"] <= today.isoformat()] + [{"date":today.isoformat(),"energy":None,"basic":None}]
+        return [r for r in history if r["date"] < today.isoformat()] + [{"date":today.isoformat(),"energy":None,"basic":None}]
     current = {"date":today.isoformat(),"energy":price(values["energy"]),"basic":price(values["basic"])}
     old = active(history,today)
     result = [r for r in history if r["date"] <= today.isoformat()]
