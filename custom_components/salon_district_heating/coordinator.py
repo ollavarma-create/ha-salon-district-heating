@@ -1,6 +1,9 @@
 """Centralized retrieval and adaptive scheduling."""
 from datetime import datetime, timedelta, timezone
 import logging
+from homeassistant.helpers.storage import Store
+from homeassistant.util import dt as dt_util
+from .costs import collect
 from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.helpers.event import async_track_point_in_utc_time
@@ -29,6 +32,12 @@ class SalonCoordinator(DataUpdateCoordinator):
         self.integrity = None
         self.last_successful_request = None
         self.auth_status = None
+        self.entry = entry
+        self.cost_store = Store(hass, 1, f"salon_district_heating.costs.{entry.entry_id}")
+        self.cost_state = {}
+
+    async def load_costs(self):
+        self.cost_state = await self.cost_store.async_load() or {}
 
     async def _async_update_data(self):
         now = datetime.now(timezone.utc)
@@ -49,6 +58,10 @@ class SalonCoordinator(DataUpdateCoordinator):
                 self.retries += 1
             _LOGGER.debug("Measurement date=%s modified=%s first_seen=%s retries=%s", date, latest.get("modified_at"), self.first_seen, self.retries)
             by_date = {stamp(row): row for row in rows}
+            before = self.cost_state.get("start")
+            changed = collect(self.cost_state, by_date, self.entry.options.get("tariffs", []), now, dt_util.as_local, consumption_integrity)
+            if changed or before != self.cost_state.get("start"):
+                await self.cost_store.async_save(self.cost_state)
             previous = by_date.get(date - timedelta(hours=1))
             self.integrity = consumption_integrity(latest, previous)
             # Revisit previously pending rows using the overlapping query.

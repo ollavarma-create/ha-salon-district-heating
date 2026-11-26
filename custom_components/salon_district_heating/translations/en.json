@@ -121,6 +121,27 @@
       },
       "hourly_energy_cost": {
         "name": "Hourly energy cost"
+      },
+      "accumulated_energy_cost": {
+        "name": "Accumulated energy cost"
+      },
+      "monthly_energy_cost": {
+        "name": "Monthly recorded energy cost"
+      },
+      "monthly_basic_cost": {
+        "name": "Estimated full-month basic fee"
+      },
+      "monthly_total_cost": {
+        "name": "Monthly estimated total cost"
+      },
+      "effective_energy_price": {
+        "name": "Effective estimated energy price"
+      },
+      "monthly_cost_hours": {
+        "name": "Monthly recorded hours"
+      },
+      "monthly_cost_energy": {
+        "name": "Monthly recorded energy"
       }
     }
   },
@@ -154,7 +175,8 @@
           "next_date": "Effective date",
           "next_energy": "Next energy (€/MWh)",
           "next_basic": "Next basic fee (€/month)"
-        }
+        },
+        "description": "Prices include VAT. Enter energy in EUR/MWh, e.g. 75.94, not EUR/kWh."
       }
     },
     "error": {

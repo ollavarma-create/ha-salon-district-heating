@@ -154,3 +154,24 @@ views:
             name: Återstående dagar
           - entity: sensor.salon_kaukolampo_last_successful_api_request
             name: Senaste lyckade API-anrop
+      - type: markdown
+        content: |
+          ## Tariffer och kostnadsuppskattningar
+          Energikostnaden omfattar endast bekräftade registrerade timmar. Totalen inkluderar uppskattad grundavgift för hela månaden; ofullständiga månader är inte fakturor.
+      - type: entities
+        title: Tariffer och kostnadsuppskattningar
+        show_header_toggle: false
+        entities:
+          - sensor.salon_kaukolampo_current_energy_tariff
+          - sensor.salon_kaukolampo_current_monthly_basic_fee
+          - sensor.salon_kaukolampo_next_energy_tariff
+          - sensor.salon_kaukolampo_next_monthly_basic_fee
+          - sensor.salon_kaukolampo_next_tariff_effective_date
+          - sensor.salon_kaukolampo_hourly_energy_cost
+          - sensor.salon_kaukolampo_accumulated_energy_cost
+          - sensor.salon_kaukolampo_monthly_recorded_energy_cost
+          - sensor.salon_kaukolampo_estimated_full_month_basic_fee
+          - sensor.salon_kaukolampo_monthly_estimated_total_cost
+          - sensor.salon_kaukolampo_effective_estimated_energy_price
+          - sensor.salon_kaukolampo_monthly_recorded_hours
+          - sensor.salon_kaukolampo_monthly_recorded_energy
