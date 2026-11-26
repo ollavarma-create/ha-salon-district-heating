@@ -1,5 +1,8 @@
 """District heating measurements."""
 from dataclasses import dataclass
+from datetime import date
+from homeassistant.util import dt as dt_util
+from .key_lifecycle import days_remaining
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription, SensorDeviceClass, SensorStateClass
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -13,6 +16,10 @@ class Description(SensorEntityDescription):
     scale: float = 1
 
 DESCRIPTIONS = (
+    Description(key="api_key_expiry", device_class=SensorDeviceClass.DATE, entity_category=EntityCategory.DIAGNOSTIC),
+    Description(key="api_key_days_remaining", native_unit_of_measurement="d", entity_category=EntityCategory.DIAGNOSTIC),
+    Description(key="api_auth_status", device_class=SensorDeviceClass.ENUM, options=["accepted", "rejected"], entity_category=EntityCategory.DIAGNOSTIC),
+    Description(key="last_successful_request", device_class=SensorDeviceClass.TIMESTAMP, entity_category=EntityCategory.DIAGNOSTIC),
     Description(key="energy_total", field="reading_total", scale=.001, device_class=SensorDeviceClass.ENERGY, native_unit_of_measurement="kWh", state_class=SensorStateClass.TOTAL_INCREASING),
     Description(key="hourly_energy", field="consumption", scale=.001, device_class=SensorDeviceClass.ENERGY, native_unit_of_measurement="kWh"),
     Description(key="average_power", field="consumption", scale=.001, device_class=SensorDeviceClass.POWER, native_unit_of_measurement="kW"),
@@ -33,13 +40,30 @@ class SalonSensor(CoordinatorEntity, SensorEntity):
     _attr_has_entity_name = True
     def __init__(self, coordinator, entry, description):
         super().__init__(coordinator)
+        self.entry = entry
         self.entity_description = description
         self._attr_translation_key = description.key
         self._attr_unique_id = f'{entry.data["location_id"]}_{description.key}'
         self._attr_device_info = DeviceInfo(identifiers={(DOMAIN, str(entry.data["location_id"]))}, name="Salon Kaukolämpö", manufacturer="Salon Kaukolämpö")
 
     @property
+    def available(self):
+        if self.entity_description.key in ("api_key_expiry", "api_key_days_remaining", "api_auth_status", "last_successful_request"):
+            return True
+        return super().available
+
+    @property
     def native_value(self):
+        key = self.entity_description.key
+        expiry = self.entry.data.get("api_key_expiry")
+        if key == "api_key_expiry":
+            return date.fromisoformat(expiry) if expiry else None
+        if key == "api_key_days_remaining":
+            return days_remaining(expiry, dt_util.now().date())
+        if key == "api_auth_status":
+            return self.coordinator.auth_status
+        if key == "last_successful_request":
+            return self.coordinator.last_successful_request
         row = self.coordinator.data
         if not row:
             return None
