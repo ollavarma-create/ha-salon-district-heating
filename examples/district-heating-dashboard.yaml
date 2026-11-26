@@ -47,6 +47,41 @@ views:
             name: Temperature difference
           - entity: sensor.salon_kaukolampo_volume_flow
             name: Volume flow
+      - type: picture-elements
+        image: /local/salon_district_heating/heat-transfer-en.svg
+        elements:
+          - type: state-label
+            entity: sensor.salon_kaukolampo_supply_temperature
+            style:
+              left: 18.75%
+              top: 25%
+              color: "#ffffff"
+              font-size: clamp(12px, 2.5vw, 20px)
+              font-weight: bold
+          - type: state-label
+            entity: sensor.salon_kaukolampo_return_temperature
+            style:
+              left: 18.75%
+              top: 83%
+              color: "#ffffff"
+              font-size: clamp(12px, 2.5vw, 20px)
+              font-weight: bold
+          - type: state-label
+            entity: sensor.salon_kaukolampo_temperature_difference
+            style:
+              left: 50%
+              top: 58%
+              color: "#ffffff"
+              font-size: clamp(12px, 2.5vw, 20px)
+              font-weight: bold
+          - type: state-label
+            entity: sensor.salon_kaukolampo_volume_flow
+            style:
+              left: 81.25%
+              top: 49%
+              color: "#ffffff"
+              font-size: clamp(12px, 2.5vw, 20px)
+              font-weight: bold
       - type: statistics-graph
         title: Hourly recorded consumption
         chart_type: bar
