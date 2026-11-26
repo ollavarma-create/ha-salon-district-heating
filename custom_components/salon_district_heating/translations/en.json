@@ -4,7 +4,8 @@
       "user": {
         "title": "Connect to LämpöVahti",
         "data": {
-          "api_key": "API key"
+          "api_key": "API key",
+          "api_key_expiry": "API key expiration date (optional)"
         },
         "description": "For monitoring only. Observed hourly energy resolution is 1 kWh; updates are delayed. Hourly average power is not instantaneous power. Do not use as the sole input for real-time heating control or safety functions."
       },
@@ -17,18 +18,26 @@
       "reauth_confirm": {
         "title": "Renew API key",
         "data": {
-          "api_key": "API key"
+          "api_key": "API key",
+          "api_key_expiry": "API key expiration date (optional)"
+        }
+      },
+      "reconfigure": {
+        "title": "Update expiration date",
+        "data": {
+          "api_key_expiry": "API key expiration date (optional)"
         }
       }
     },
     "error": {
-      "invalid_auth": "Invalid API key",
+      "invalid_auth": "API key rejected; it may be expired, revoked or invalid",
       "cannot_connect": "Cannot connect",
       "no_locations": "No accessible locations"
     },
     "abort": {
       "already_configured": "Already configured",
-      "reauth_successful": "API key updated"
+      "reauth_successful": "API key updated",
+      "reconfigure_successful": "Expiration date updated"
     }
   },
   "entity": {
@@ -75,7 +84,41 @@
           "stale": "Stale",
           "unverifiable": "Unverifiable"
         }
+      },
+      "api_key_expiry": {
+        "name": "API key expiration"
+      },
+      "api_key_days_remaining": {
+        "name": "API key days remaining"
+      },
+      "api_auth_status": {
+        "name": "API authentication status",
+        "state": {
+          "accepted": "Accepted",
+          "rejected": "Rejected"
+        }
+      },
+      "last_successful_request": {
+        "name": "Last successful API request"
       }
+    }
+  },
+  "issues": {
+    "key_thirty_days": {
+      "title": "API key expires within 30 days",
+      "description": "The entered expiration date is {expiry}. Open LämpöVahti, select My account (Tilini), scroll below password change to API and create a new key if needed. The date alone does not disable requests."
+    },
+    "key_seven_days": {
+      "title": "API key expires within 7 days",
+      "description": "The entered expiration date is {expiry}. Open LämpöVahti, select My account (Tilini), scroll below password change to API and create a new key if needed. The date alone does not disable requests."
+    },
+    "key_one_day": {
+      "title": "API key expires within 1 day",
+      "description": "The entered expiration date is {expiry}. Open LämpöVahti, select My account (Tilini), scroll below password change to API and create a new key if needed. The date alone does not disable requests."
+    },
+    "key_expired": {
+      "title": "API key expiration date reached",
+      "description": "The entered expiration date is {expiry}. Open LämpöVahti, select My account (Tilini), scroll below password change to API and create a new key if needed. The date alone does not disable requests."
     }
   }
 }
