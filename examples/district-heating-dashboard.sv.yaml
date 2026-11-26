@@ -1,7 +1,7 @@
 # Replace sensor.salon_kaukolampo_ with your actual entity prefix if needed.
 title: Fjärrvärme
 views:
-  - title: District heating
+  - title: Fjärrvärme
     path: district-heating
     icon: mdi:radiator
     cards:
@@ -142,3 +142,15 @@ views:
         entities:
           - entity: sensor.salon_kaukolampo_volume_flow
             name: Volymflöde
+      - type: entities
+        title: API-diagnostik
+        show_header_toggle: false
+        entities:
+          - entity: sensor.salon_kaukolampo_api_authentication_status
+            name: Autentiseringsstatus
+          - entity: sensor.salon_kaukolampo_api_key_expiration
+            name: Nyckelns utgångsdatum
+          - entity: sensor.salon_kaukolampo_api_key_days_remaining
+            name: Återstående dagar
+          - entity: sensor.salon_kaukolampo_last_successful_api_request
+            name: Senaste lyckade API-anrop
