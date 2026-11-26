@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from datetime import date
 from homeassistant.util import dt as dt_util
 from .key_lifecycle import days_remaining
+from .tariffs import active, upcoming, hourly_cost
+from homeassistant.helpers.event import async_track_time_change
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription, SensorDeviceClass, SensorStateClass
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.helpers.device_registry import DeviceInfo
@@ -15,7 +17,14 @@ class Description(SensorEntityDescription):
     field: str = ""
     scale: float = 1
 
+TARIFF_KEYS = ("current_energy_tariff", "current_basic_fee", "next_energy_tariff", "next_basic_fee", "next_tariff_date")
 DESCRIPTIONS = (
+    Description(key="current_energy_tariff", native_unit_of_measurement="€/kWh", suggested_display_precision=5),
+    Description(key="current_basic_fee", native_unit_of_measurement="€/month"),
+    Description(key="next_energy_tariff", native_unit_of_measurement="€/kWh", suggested_display_precision=5),
+    Description(key="next_basic_fee", native_unit_of_measurement="€/month"),
+    Description(key="next_tariff_date", device_class=SensorDeviceClass.DATE),
+    Description(key="hourly_energy_cost", device_class=SensorDeviceClass.MONETARY, native_unit_of_measurement="EUR"),
     Description(key="api_key_expiry", device_class=SensorDeviceClass.DATE, entity_category=EntityCategory.DIAGNOSTIC),
     Description(key="api_key_days_remaining", native_unit_of_measurement="d", entity_category=EntityCategory.DIAGNOSTIC),
     Description(key="api_auth_status", device_class=SensorDeviceClass.ENUM, options=["accepted", "rejected"], entity_category=EntityCategory.DIAGNOSTIC),
@@ -46,8 +55,18 @@ class SalonSensor(CoordinatorEntity, SensorEntity):
         self._attr_unique_id = f'{entry.data["location_id"]}_{description.key}'
         self._attr_device_info = DeviceInfo(identifiers={(DOMAIN, str(entry.data["location_id"]))}, name="Salon Kaukolämpö", manufacturer="Salon Kaukolämpö")
 
+    async def async_added_to_hass(self):
+        await super().async_added_to_hass()
+        if self.entity_description.key in TARIFF_KEYS:
+            self.async_on_remove(async_track_time_change(self.hass, self._tariff_midnight, hour=0, minute=0, second=0))
+
+    async def _tariff_midnight(self, now):
+        self.async_write_ha_state()
+
     @property
     def available(self):
+        if self.entity_description.key in TARIFF_KEYS:
+            return True
         if self.entity_description.key in ("api_key_expiry", "api_key_days_remaining", "api_auth_status", "last_successful_request"):
             return True
         return super().available
@@ -55,6 +74,20 @@ class SalonSensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self):
         key = self.entity_description.key
+        history = self.entry.options.get("tariffs", [])
+        if key in TARIFF_KEYS:
+            today = dt_util.now().date()
+            tariff = upcoming(history,today) if key.startswith("next_") else active(history,today)
+            if not tariff:
+                return None
+            if key == "next_tariff_date":
+                return date.fromisoformat(tariff["date"])
+            value = tariff["energy" if "energy" in key else "basic"]
+            return value / 1000 if value is not None and "energy" in key else value
+        if key == "hourly_energy_cost":
+            row = self.coordinator.data or {}
+            when = row.get("consumption_time")
+            return hourly_cost(row.get("consumption"), active(history, dt_util.as_local(when).date())) if when else None
         expiry = self.entry.data.get("api_key_expiry")
         if key == "api_key_expiry":
             return date.fromisoformat(expiry) if expiry else None
