@@ -16,3 +16,7 @@ The daily, weekly and monthly charts use the change statistic of the cumulative 
 The temperature and flow charts display recorded states, not guaranteed instantaneous values. Use the diagnostic timestamps and quality status to assess freshness. This dashboard is for monitoring, not safety or real-time control. LämpöVahti remains the source for official consumption history and billing.
 
 This example requires field testing on Home Assistant 2026.11.0; it is not automatically installed and does not modify the integration or existing dashboards.
+
+## Heat transfer card and localized dashboards
+
+Choose district-heating-dashboard.yaml (English), district-heating-dashboard.fi.yaml (Finnish) or district-heating-dashboard.sv.yaml (Swedish). Copy the corresponding heat-transfer-en.svg, heat-transfer-fi.svg or heat-transfer-sv.svg into the HA configuration directory under www/salon_district_heating/. The card references /local/salon_district_heating/. If www is newly created, restart HA if necessary. Replace example entity IDs with actual IDs. The diagram is conceptual, not a hydraulic installation drawing. Values are delayed primary-side readings only. The original entities card remains as fallback. New cards and localized variants await field testing.
