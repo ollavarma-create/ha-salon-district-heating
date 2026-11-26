@@ -17,3 +17,10 @@ def warning_stage(days):
     if days <= 7:
         return "seven_days"
     return "thirty_days"
+
+
+def reconfigured_expiry(user_input, previous):
+    """Explicit removal takes precedence; omitted date preserves existing value."""
+    if user_input.get("clear_expiry"):
+        return None
+    return normalize_expiry(user_input.get("api_key_expiry") or previous)
