@@ -103,6 +103,24 @@
       },
       "last_successful_request": {
         "name": "Last successful API request"
+      },
+      "current_energy_tariff": {
+        "name": "Current energy tariff"
+      },
+      "current_basic_fee": {
+        "name": "Current monthly basic fee"
+      },
+      "next_energy_tariff": {
+        "name": "Next energy tariff"
+      },
+      "next_basic_fee": {
+        "name": "Next monthly basic fee"
+      },
+      "next_tariff_date": {
+        "name": "Next tariff effective date"
+      },
+      "hourly_energy_cost": {
+        "name": "Hourly energy cost"
       }
     }
   },
@@ -122,6 +140,25 @@
     "key_expired": {
       "title": "API key expiration date reached",
       "description": "The entered expiration date is {expiry}. Open LämpöVahti, select My account (Tilini), scroll below password change to API and create a new key if needed. The date alone does not disable requests."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Enable tariffs",
+        "data": {
+          "enabled": "Enable tariffs",
+          "energy": "Current energy (€/MWh)",
+          "basic": "Current basic fee (€/month)",
+          "schedule": "Schedule next tariff",
+          "next_date": "Effective date",
+          "next_energy": "Next energy (€/MWh)",
+          "next_basic": "Next basic fee (€/month)"
+        }
+      }
+    },
+    "error": {
+      "invalid_tariff": "Enter valid prices and a future effective date."
     }
   }
 }
