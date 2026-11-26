@@ -142,3 +142,15 @@ views:
         entities:
           - entity: sensor.salon_kaukolampo_volume_flow
             name: Volume flow
+      - type: entities
+        title: API diagnostics
+        show_header_toggle: false
+        entities:
+          - entity: sensor.salon_kaukolampo_api_authentication_status
+            name: Authentication status
+          - entity: sensor.salon_kaukolampo_api_key_expiration
+            name: Key expiration
+          - entity: sensor.salon_kaukolampo_api_key_days_remaining
+            name: Days remaining
+          - entity: sensor.salon_kaukolampo_last_successful_api_request
+            name: Last successful API request

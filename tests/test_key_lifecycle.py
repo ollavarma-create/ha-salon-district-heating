@@ -19,3 +19,12 @@ def test_normalize():
     assert mod.normalize_expiry("2028-11-23") == "2028-11-23"
     with pytest.raises(ValueError):
         mod.normalize_expiry("2028-02-30")
+
+
+@pytest.mark.parametrize("payload,expected", [({}, "2028-11-23"), ({"clear_expiry": True}, None), ({"clear_expiry": True, "api_key_expiry": "2026-11-26"}, None), ({"api_key_expiry": "2027-01-01"}, "2027-01-01")])
+def test_reconfigure_expiry(payload, expected):
+    assert mod.reconfigured_expiry(payload, "2028-11-23") == expected
+
+def test_cleared_expiry_has_no_warning():
+    expiry = mod.reconfigured_expiry({"clear_expiry": True}, "2026-11-26")
+    assert mod.warning_stage(mod.days_remaining(expiry, date(2026, 11, 26))) is None

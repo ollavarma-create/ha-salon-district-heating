@@ -25,8 +25,10 @@
       "reconfigure": {
         "title": "Update expiration date",
         "data": {
-          "api_key_expiry": "API key expiration date (optional)"
-        }
+          "api_key_expiry": "API key expiration date (optional)",
+          "clear_expiry": "Remove expiration date"
+        },
+        "description": "Select removal to clear the date and its warnings. Your API key stays unchanged."
       }
     },
     "error": {
@@ -37,7 +39,8 @@
     "abort": {
       "already_configured": "Already configured",
       "reauth_successful": "API key updated",
-      "reconfigure_successful": "Expiration date updated"
+      "reconfigure_successful": "Expiration date updated",
+      "expiry_updated": "Expiration date settings updated"
     }
   },
   "entity": {

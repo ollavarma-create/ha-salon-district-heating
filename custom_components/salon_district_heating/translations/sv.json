@@ -25,8 +25,10 @@
       "reconfigure": {
         "title": "Uppdatera utgångsdatum",
         "data": {
-          "api_key_expiry": "API-nyckelns utgångsdatum (valfritt)"
-        }
+          "api_key_expiry": "API-nyckelns utgångsdatum (valfritt)",
+          "clear_expiry": "Ta bort utgångsdatum"
+        },
+        "description": "Välj borttagning för att rensa datumet och dess varningar. API-nyckeln förblir oförändrad."
       }
     },
     "error": {
@@ -37,7 +39,8 @@
     "abort": {
       "already_configured": "Integrationen är redan konfigurerad",
       "reauth_successful": "API-nyckeln uppdaterades",
-      "reconfigure_successful": "Utgångsdatum uppdaterat"
+      "reconfigure_successful": "Utgångsdatum uppdaterat",
+      "expiry_updated": "Inställningarna för utgångsdatum har uppdaterats"
     }
   },
   "entity": {
