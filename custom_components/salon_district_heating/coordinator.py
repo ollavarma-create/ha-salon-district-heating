@@ -27,11 +27,15 @@ class SalonCoordinator(DataUpdateCoordinator):
         self.retries = 0
         self.pending_dates = set()
         self.integrity = None
+        self.last_successful_request = None
+        self.auth_status = None
 
     async def _async_update_data(self):
         now = datetime.now(timezone.utc)
         try:
             rows = await self.client.consumptions(self.location_id, (now-timedelta(hours=48)).isoformat(), now.isoformat())
+            self.last_successful_request = datetime.now(timezone.utc)
+            self.auth_status = "accepted"
             rows = [row for row in rows if row.get("location_id") == self.location_id and stamp(row) <= now]
             latest = max(rows, key=stamp) if rows else None
             if latest is None:
@@ -63,8 +67,9 @@ class SalonCoordinator(DataUpdateCoordinator):
             # Keep raw API rows intact; expose the latest verified consumption separately.
             return {**latest, **consumption_view(by_date, now)}
         except AuthenticationError:
+            self.auth_status = "rejected"
             self.stop()
-            raise ConfigEntryAuthFailed("Authentication failed") from None
+            raise ConfigEntryAuthFailed("API key rejected; it may be expired, revoked or invalid") from None
         except (ApiError, ValueError, KeyError, TypeError):
             raise UpdateFailed("Measurement retrieval failed") from None
 
