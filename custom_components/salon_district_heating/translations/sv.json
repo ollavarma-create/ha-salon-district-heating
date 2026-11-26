@@ -103,6 +103,24 @@
       },
       "last_successful_request": {
         "name": "Senaste lyckade API-anrop"
+      },
+      "current_energy_tariff": {
+        "name": "Nuvarande energipris"
+      },
+      "current_basic_fee": {
+        "name": "Nuvarande månatlig grundavgift"
+      },
+      "next_energy_tariff": {
+        "name": "Nästa energipris"
+      },
+      "next_basic_fee": {
+        "name": "Nästa månatlig grundavgift"
+      },
+      "next_tariff_date": {
+        "name": "Nästa tariffdatum"
+      },
+      "hourly_energy_cost": {
+        "name": "Timenergikostnad"
       }
     }
   },
@@ -122,6 +140,25 @@
     "key_expired": {
       "title": "API-nyckelns utgångsdatum har nåtts",
       "description": "Angivet utgångsdatum är {expiry}. Öppna LämpöVahti, välj Mitt konto (Tilini) och gå till API-avsnittet under lösenordsbytet. Skapa vid behov en ny nyckel. Datumet stoppar inte anrop i sig."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Aktivera tariffer",
+        "data": {
+          "enabled": "Aktivera tariffer",
+          "energy": "Nuvarande energipris (€/MWh)",
+          "basic": "Nuvarande grundavgift (€/månad)",
+          "schedule": "Schemalägg nästa tariff",
+          "next_date": "Ikraftträdandedatum",
+          "next_energy": "Nästa energipris (€/MWh)",
+          "next_basic": "Nästa grundavgift (€/månad)"
+        }
+      }
+    },
+    "error": {
+      "invalid_tariff": "Ange giltiga priser och ett framtida datum."
     }
   }
 }

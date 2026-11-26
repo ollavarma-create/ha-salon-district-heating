@@ -103,6 +103,24 @@
       },
       "last_successful_request": {
         "name": "Viimeisin onnistunut API-kutsu"
+      },
+      "current_energy_tariff": {
+        "name": "Nykyinen energiamaksu"
+      },
+      "current_basic_fee": {
+        "name": "Nykyinen kuukausittainen perusmaksu"
+      },
+      "next_energy_tariff": {
+        "name": "Seuraava energiamaksu"
+      },
+      "next_basic_fee": {
+        "name": "Seuraava kuukausittainen perusmaksu"
+      },
+      "next_tariff_date": {
+        "name": "Seuraavan tariffin voimaantulopäivä"
+      },
+      "hourly_energy_cost": {
+        "name": "Tuntienergian kustannus"
       }
     }
   },
@@ -122,6 +140,25 @@
     "key_expired": {
       "title": "API-avaimen vanhenemispäivä saavutettu",
       "description": "Syötetty vanhenemispäivä on {expiry}. Avaa LämpöVahti, valitse Tilini ja vieritä salasanan vaihdon alapuolelle API-osioon. Luo tarvittaessa uusi avain. Päivämäärä ei yksin estä kyselyitä."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Ota tariffit käyttöön",
+        "data": {
+          "enabled": "Ota tariffit käyttöön",
+          "energy": "Nykyinen energiamaksu (€/MWh)",
+          "basic": "Nykyinen perusmaksu (€/kk)",
+          "schedule": "Ajasta seuraava tariffi",
+          "next_date": "Voimaantulopäivä",
+          "next_energy": "Seuraava energiamaksu (€/MWh)",
+          "next_basic": "Seuraava perusmaksu (€/kk)"
+        }
+      }
+    },
+    "error": {
+      "invalid_tariff": "Syötä kelvolliset hinnat ja tuleva voimaantulopäivä."
     }
   }
 }
