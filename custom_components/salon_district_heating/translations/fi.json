@@ -4,7 +4,8 @@
       "user": {
         "title": "Yhdistä LämpöVahtiin",
         "data": {
-          "api_key": "API-avain"
+          "api_key": "API-avain",
+          "api_key_expiry": "API-avaimen vanhenemispäivä (valinnainen)"
         },
         "description": "Vain seurantaan. Tuntienergian havaittu resoluutio on 1 kWh ja tiedot päivittyvät viiveellä. Tunnin keskiteho ei ole hetkellinen teho. Älä käytä tietoja ainoana perusteena reaaliaikaiselle lämmityksen ohjaukselle tai turvatoiminnoille."
       },
@@ -17,18 +18,26 @@
       "reauth_confirm": {
         "title": "Uusi API-avain",
         "data": {
-          "api_key": "API-avain"
+          "api_key": "API-avain",
+          "api_key_expiry": "API-avaimen vanhenemispäivä (valinnainen)"
+        }
+      },
+      "reconfigure": {
+        "title": "Päivitä vanhenemispäivä",
+        "data": {
+          "api_key_expiry": "API-avaimen vanhenemispäivä (valinnainen)"
         }
       }
     },
     "error": {
-      "invalid_auth": "Virheellinen API-avain",
+      "invalid_auth": "API-avain hylättiin; se voi olla vanhentunut, mitätöity tai virheellinen",
       "cannot_connect": "Yhteys epäonnistui",
       "no_locations": "Ei käytettävissä olevia käyttöpaikkoja"
     },
     "abort": {
       "already_configured": "Integraatio on jo määritetty",
-      "reauth_successful": "API-avain päivitetty"
+      "reauth_successful": "API-avain päivitetty",
+      "reconfigure_successful": "Vanhenemispäivä päivitetty"
     }
   },
   "entity": {
@@ -75,7 +84,41 @@
           "stale": "Vanhentunut",
           "unverifiable": "Ei varmennettavissa"
         }
+      },
+      "api_key_expiry": {
+        "name": "API-avaimen vanhenemispäivä"
+      },
+      "api_key_days_remaining": {
+        "name": "API-avaimen jäljellä olevat päivät"
+      },
+      "api_auth_status": {
+        "name": "API-tunnistautumisen tila",
+        "state": {
+          "accepted": "Hyväksytty",
+          "rejected": "Hylätty"
+        }
+      },
+      "last_successful_request": {
+        "name": "Viimeisin onnistunut API-kutsu"
       }
+    }
+  },
+  "issues": {
+    "key_thirty_days": {
+      "title": "API-avain vanhenee 30 päivän kuluessa",
+      "description": "Syötetty vanhenemispäivä on {expiry}. Avaa LämpöVahti, valitse Tilini ja vieritä salasanan vaihdon alapuolelle API-osioon. Luo tarvittaessa uusi avain. Päivämäärä ei yksin estä kyselyitä."
+    },
+    "key_seven_days": {
+      "title": "API-avain vanhenee 7 päivän kuluessa",
+      "description": "Syötetty vanhenemispäivä on {expiry}. Avaa LämpöVahti, valitse Tilini ja vieritä salasanan vaihdon alapuolelle API-osioon. Luo tarvittaessa uusi avain. Päivämäärä ei yksin estä kyselyitä."
+    },
+    "key_one_day": {
+      "title": "API-avain vanhenee päivän kuluessa",
+      "description": "Syötetty vanhenemispäivä on {expiry}. Avaa LämpöVahti, valitse Tilini ja vieritä salasanan vaihdon alapuolelle API-osioon. Luo tarvittaessa uusi avain. Päivämäärä ei yksin estä kyselyitä."
+    },
+    "key_expired": {
+      "title": "API-avaimen vanhenemispäivä saavutettu",
+      "description": "Syötetty vanhenemispäivä on {expiry}. Avaa LämpöVahti, valitse Tilini ja vieritä salasanan vaihdon alapuolelle API-osioon. Luo tarvittaessa uusi avain. Päivämäärä ei yksin estä kyselyitä."
     }
   }
 }

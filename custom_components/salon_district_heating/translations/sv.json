@@ -4,7 +4,8 @@
       "user": {
         "title": "Anslut till LämpöVahti",
         "data": {
-          "api_key": "API-nyckel"
+          "api_key": "API-nyckel",
+          "api_key_expiry": "API-nyckelns utgångsdatum (valfritt)"
         },
         "description": "Endast för uppföljning. Observerad upplösning för timenergin är 1 kWh och uppdateringar sker med fördröjning. Timmedeleffekt är inte momentan effekt. Använd inte uppgifterna som enda underlag för värmestyrning i realtid eller säkerhetsfunktioner."
       },
@@ -17,18 +18,26 @@
       "reauth_confirm": {
         "title": "Förnya API-nyckeln",
         "data": {
-          "api_key": "API-nyckel"
+          "api_key": "API-nyckel",
+          "api_key_expiry": "API-nyckelns utgångsdatum (valfritt)"
+        }
+      },
+      "reconfigure": {
+        "title": "Uppdatera utgångsdatum",
+        "data": {
+          "api_key_expiry": "API-nyckelns utgångsdatum (valfritt)"
         }
       }
     },
     "error": {
-      "invalid_auth": "Ogiltig API-nyckel",
+      "invalid_auth": "API-nyckeln avvisades; den kan vara utgången, återkallad eller ogiltig",
       "cannot_connect": "Anslutningen misslyckades",
       "no_locations": "Inga tillgängliga förbrukningsplatser"
     },
     "abort": {
       "already_configured": "Integrationen är redan konfigurerad",
-      "reauth_successful": "API-nyckeln uppdaterades"
+      "reauth_successful": "API-nyckeln uppdaterades",
+      "reconfigure_successful": "Utgångsdatum uppdaterat"
     }
   },
   "entity": {
@@ -75,7 +84,41 @@
           "stale": "Föråldrad",
           "unverifiable": "Kan inte verifieras"
         }
+      },
+      "api_key_expiry": {
+        "name": "API-nyckelns utgångsdatum"
+      },
+      "api_key_days_remaining": {
+        "name": "Återstående dagar för API-nyckeln"
+      },
+      "api_auth_status": {
+        "name": "API-autentiseringsstatus",
+        "state": {
+          "accepted": "Godkänd",
+          "rejected": "Avvisad"
+        }
+      },
+      "last_successful_request": {
+        "name": "Senaste lyckade API-anrop"
       }
+    }
+  },
+  "issues": {
+    "key_thirty_days": {
+      "title": "API-nyckeln löper ut inom 30 dagar",
+      "description": "Angivet utgångsdatum är {expiry}. Öppna LämpöVahti, välj Mitt konto (Tilini) och gå till API-avsnittet under lösenordsbytet. Skapa vid behov en ny nyckel. Datumet stoppar inte anrop i sig."
+    },
+    "key_seven_days": {
+      "title": "API-nyckeln löper ut inom 7 dagar",
+      "description": "Angivet utgångsdatum är {expiry}. Öppna LämpöVahti, välj Mitt konto (Tilini) och gå till API-avsnittet under lösenordsbytet. Skapa vid behov en ny nyckel. Datumet stoppar inte anrop i sig."
+    },
+    "key_one_day": {
+      "title": "API-nyckeln löper ut inom en dag",
+      "description": "Angivet utgångsdatum är {expiry}. Öppna LämpöVahti, välj Mitt konto (Tilini) och gå till API-avsnittet under lösenordsbytet. Skapa vid behov en ny nyckel. Datumet stoppar inte anrop i sig."
+    },
+    "key_expired": {
+      "title": "API-nyckelns utgångsdatum har nåtts",
+      "description": "Angivet utgångsdatum är {expiry}. Öppna LämpöVahti, välj Mitt konto (Tilini) och gå till API-avsnittet under lösenordsbytet. Skapa vid behov en ny nyckel. Datumet stoppar inte anrop i sig."
     }
   }
 }
