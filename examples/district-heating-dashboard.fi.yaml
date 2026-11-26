@@ -1,7 +1,7 @@
 # Replace sensor.salon_kaukolampo_ with your actual entity prefix if needed.
 title: Kaukolämpö
 views:
-  - title: District heating
+  - title: Kaukolämpö
     path: district-heating
     icon: mdi:radiator
     cards:
@@ -142,3 +142,15 @@ views:
         entities:
           - entity: sensor.salon_kaukolampo_volume_flow
             name: Tilavuusvirta
+      - type: entities
+        title: API-diagnostiikka
+        show_header_toggle: false
+        entities:
+          - entity: sensor.salon_kaukolampo_api_authentication_status
+            name: Tunnistautumisen tila
+          - entity: sensor.salon_kaukolampo_api_key_expiration
+            name: Avaimen vanhenemispäivä
+          - entity: sensor.salon_kaukolampo_api_key_days_remaining
+            name: Päiviä jäljellä
+          - entity: sensor.salon_kaukolampo_last_successful_api_request
+            name: Viimeisin onnistunut API-kutsu
