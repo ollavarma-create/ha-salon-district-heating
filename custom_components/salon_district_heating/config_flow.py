@@ -4,7 +4,7 @@ from homeassistant import config_entries
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers import selector
 from .const import DOMAIN
-from .key_lifecycle import normalize_expiry
+from .key_lifecycle import normalize_expiry, reconfigured_expiry
 
 def key_schema():
     return vol.Schema({vol.Required("api_key"): selector.TextSelector(selector.TextSelectorConfig(type=selector.TextSelectorType.PASSWORD)), vol.Optional("api_key_expiry"): selector.DateSelector()})
@@ -62,6 +62,6 @@ class SalonConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_reconfigure(self, user_input=None):
         entry = self._get_reconfigure_entry()
         if user_input is not None:
-            return self.async_update_reload_and_abort(entry, data_updates={"api_key_expiry": normalize_expiry(user_input.get("api_key_expiry"))})
-        schema = vol.Schema({vol.Optional("api_key_expiry"): selector.DateSelector()})
+            return self.async_update_reload_and_abort(entry, data_updates={"api_key_expiry": reconfigured_expiry(user_input, entry.data.get("api_key_expiry"))}, reason="expiry_updated")
+        schema = vol.Schema({vol.Optional("api_key_expiry"): selector.DateSelector(), vol.Optional("clear_expiry", default=False): selector.BooleanSelector()})
         return self.async_show_form(step_id="reconfigure", data_schema=self.add_suggested_values_to_schema(schema, entry.data))
