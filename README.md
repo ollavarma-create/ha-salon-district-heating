@@ -6,18 +6,18 @@
 
 An unofficial MIT-licensed integration for the Salon Kaukolämpö LämpöVahti API. It complements rather than replaces LämpöVahti by making district heating data available for building energy efficiency analysis in Home Assistant.
 
-**Status:** 0.1.0-rc.1, experimental. Tested in a separate Home Assistant environment; production installation and Energy Dashboard validation are pending. Independent of the utility.
+**Status:** 0.1.0. Field-tested on Fedora Docker with Home Assistant 2026.11.0; Raspberry Pi production validation is pending. Independent of the utility.
 
 ## API key
 
-1. Sign in to [LämpöVahti](https://lampovahti.salonkaukolampo.fi/login).
-2. Open Tilini (My account), then API-avaimet (API keys).
-3. Select Luo uusi avain (Create new key). Keep the key private. Contact the utility if API access is missing.
+1. Open [Customer portal](https://salonkaukolampo.fi/asiakkaille/asiakasportaali/), select Kulutusraportit and sign in to [LämpöVahti](https://lampovahti.salonkaukolampo.fi/login).
+2. Open Tilini (My account), then scroll below the password change section to API-avaimet (API keys).
+3. Select Luo uusi avain (Create new key). Record its displayed expiration date if desired. Keep the key private. Contact the utility if API access is missing.
 
-## Installation for testers
+## Installation
 
 <!-- ha-marketplace:exclude-start -->
-Back up your configuration. In Home Assistant 2026.11.0 or later, open Settings → Marketplace → Add from link and enter https://github.com/ollavarma-create/ha-salon-district-heating. Select the integration and install it. Enable pre-releases when testing a release candidate. Marketplace installation is not yet field-tested.
+Back up your configuration. In Home Assistant 2026.11.0 or later, open Settings → Marketplace → Add from link and enter https://github.com/ollavarma-create/ha-salon-district-heating. Select the integration and install it. Custom repository installation and updates have been field-tested on Fedora.
 
 Alternatively, copy `custom_components/salon_district_heating` into the configuration's `custom_components` directory and restart Home Assistant.
 <!-- ha-marketplace:exclude-end -->
@@ -30,7 +30,11 @@ Cumulative energy (kWh), hourly energy (kWh), hourly average power (kW), supply 
 
 Observed energy resolution is 1 kWh. Hourly average power is not instantaneous power. Delayed or inconsistent consumption can retain the last confirmed value for up to two hours from its measurement time; check the quality and consumption timestamp. No interpolation. Do not use as the sole input for real-time heating control or safety functions.
 
-Data collection starts at installation; no historical import, separate database or tariff engine. Home Assistant manages its own history and statistics. Energy Dashboard compatibility is being tested.
+Data collection starts at installation; no historical import. Home Assistant manages its history and statistics. The optional [dashboard](examples/district-heating-dashboard.yaml) uses recorded meter changes rather than original API timestamps; adapt entity IDs to your installation. No dedicated district heating category was available in the tested Energy Dashboard.
+
+## API diagnostics and costs
+
+Optional key expiration reminders (30 days, 7 days and expiration), authentication status and last successful request are available. Configure current and optional future tariffs in integration settings using VAT-inclusive €/kWh and €/month (decimal point in input). Costs are recorded for confirmed hours only, with persistent deduplication. The effective price includes the entire monthly basic fee and can be unusually high at the beginning of a month or a partial monitoring period; it decreases as consumption accumulates. Only complete coverage gives a meaningful full-month comparison. Estimates are not bills. See [cost calculation](docs/COSTS.md).
 
 ## Technical documentation
 

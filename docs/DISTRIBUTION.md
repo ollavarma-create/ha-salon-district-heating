@@ -23,7 +23,7 @@ Before release:
 - [ ] Develop and test a name-independent dashboard generator; verify stable sensor-role lookup and multiple locations.
 - [ ] Publish a stable GitHub release and only then request catalog inclusion.
 
-No historical import, tariff engine or separate database is required.
+No historical import or external database is required. Optional tariff estimates use Home Assistant storage.
 
 ## Acceptance checkpoint — 2026-11-25
 
@@ -34,7 +34,7 @@ No historical import, tariff engine or separate database is required.
 - Observed confirmed and pending quality states; pending retained the preceding confirmed hourly value with its own timestamp.
 - Optional dashboard example rendered successfully after adapting entity IDs to the area-prefixed IDs assigned by HA. Temperature history appeared. Daily/weekly/monthly statistics were not yet populated.
 - Energy Dashboard wizard has electricity, solar, battery, gas, water and individual electrical devices, but no district heating category. Do not misclassify heat as electricity or gas.
-- Keep the clean test instance running for statistics and logs. Production deployment remains pending. Await utility clarification of cumulative deltas, delayed corrections, modified_at and measurement semantics before changing measurement logic.
+- Keep the clean test instance running for statistics and logs. Production deployment remains pending. Utility clarification remains pending; observed behavior is documented and no further measurement logic changes are required for v0.1.0.
 - Do not publish authentication codes, IP addresses, API keys or customer identifiers in screenshots.
 
 ## Marketplace references
@@ -44,3 +44,7 @@ No historical import, tariff engine or separate database is required.
 - https://contributors.home-assistant.io/marketplace/how-it-works/
 - https://contributors.home-assistant.io/marketplace/reference/validation/
 - https://contributors.home-assistant.io/core/integrations/categories/
+
+## v0.1.0 release checkpoint
+
+RC.5 was field-tested on Fedora with 28 entities, dashboards, key expiry warnings and accumulating cost estimates. Production installation, real calendar tariff transition and named stable release installation remain to be verified. No dedicated Energy Dashboard district heating category is claimed.

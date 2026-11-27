@@ -6,18 +6,18 @@
 
 En inofficiell integration med MIT-licens för Salon Kaukolämpös LämpöVahti-API. Integrationen kompletterar LämpöVahti genom att göra fjärrvärmedata tillgängliga i Home Assistant för analys av byggnadens energieffektivitet.
 
-**Status:** 0.1.0-rc.1, experimentell. Testad i en separat Home Assistant-miljö. Produktionsinstallation och energipanelen återstår att verifiera. Projektet är oberoende av energibolaget.
+**Status:** 0.1.0. Fälttestad i Fedora Docker med Home Assistant 2026.11.0. Produktionsvalidering på Raspberry Pi återstår. Projektet är oberoende av energibolaget.
 
 ## API-nyckel
 
-1. Logga in på [LämpöVahti](https://lampovahti.salonkaukolampo.fi/login).
-2. Öppna Tilini (Mitt konto) → API-avaimet (API-nycklar).
-3. Välj Luo uusi avain (Skapa ny nyckel). Håll nyckeln hemlig. Kontakta energibolaget om API-åtkomst saknas.
+1. Öppna [kundportalen](https://salonkaukolampo.fi/asiakkaille/asiakasportaali/), välj Kulutusraportit och logga in på [LämpöVahti](https://lampovahti.salonkaukolampo.fi/login).
+2. Öppna Tilini (Mitt konto) och rulla ned till API-avsnittet under lösenordsbytet.
+3. Välj Luo uusi avain (Skapa ny nyckel). Notera vid behov det visade utgångsdatumet. Håll nyckeln hemlig. Kontakta energibolaget om API-åtkomst saknas.
 
-## Installation för testare
+## Installation
 
 <!-- ha-marketplace:exclude-start -->
-Säkerhetskopiera konfigurationen. Öppna Inställningar → Marketplace → Add from link i Home Assistant 2026.11.0 eller senare och ange https://github.com/ollavarma-create/ha-salon-district-heating. Välj integrationen och installera den. Aktivera förhandsversioner för RC-testning. Marketplace-installationen har ännu inte testats i praktiken.
+Säkerhetskopiera konfigurationen. Öppna Inställningar → Marketplace → Add from link i Home Assistant 2026.11.0 eller senare och ange https://github.com/ollavarma-create/ha-salon-district-heating. Välj integrationen och installera den. Installation och uppdateringar från det anpassade kodförrådet har fälttestats i Fedora.
 
 Alternativt kopierar du `custom_components/salon_district_heating` till konfigurationskatalogens `custom_components` och startar om Home Assistant.
 <!-- ha-marketplace:exclude-end -->
@@ -30,7 +30,11 @@ Ackumulerad energi (kWh), timenergi (kWh), timmedeleffekt (kW), framlednings- oc
 
 Observerad energiupplösning är 1 kWh. Timmedeleffekt är inte momentan effekt. Vid fördröjd eller inkonsekvent förbrukningsdata kan det senaste bekräftade värdet behållas i högst två timmar från dess mättid. Kontrollera datakvalitet och förbrukningens mättid. Ingen interpolering. Använd inte som enda datakälla för värmestyrning i realtid eller säkerhetsfunktioner.
 
-Datainsamlingen börjar vid installationen. Ingen historikimport, separat databas eller tariffberäkning. Home Assistant hanterar historik och statistik. Kompatibilitet med energipanelen testas.
+Datainsamlingen börjar vid installationen. Ingen historikimport. Home Assistant hanterar historik och statistik. Den valfria [panelen](examples/district-heating-dashboard.yaml) använder registrerade mätarförändringar, inte API:s ursprungliga tidsstämplar. Anpassa entitets-ID:n till installationen. Den testade energipanelen saknade en särskild fjärrvärmekategori.
+
+## API-diagnostik och kostnader
+
+Valfria varningar om nyckelns utgångsdatum (30 dagar, 7 dagar och utgångsdagen), autentiseringsstatus och senaste lyckade anrop finns tillgängliga. Ange aktuell och valfri kommande tariff i integrationens inställningar inklusive moms i €/kWh och €/månad (decimalpunkt vid inmatning). Kostnader registreras endast för bekräftade timmar med beständig dubblettkontroll. Det effektiva priset inkluderar hela månadens grundavgift och kan därför vara ovanligt högt i början av månaden eller när uppföljningen börjar mitt i månaden. Priset sjunker när förbrukningen ackumuleras. En hel månad med fullständig täckning ger den mest meningsfulla jämförelsen. Uppskattningar är inte fakturor. Se [kostnadsberäkning](docs/COSTS.md).
 
 ## Dokumentation
 
